@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -8,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Game">
+<AnchorPane fx:id="bigboard" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../../style/game.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Game">
    <children>
       <AnchorPane fx:id="board" layoutX="20.0" layoutY="20.0" prefHeight="680.0" prefWidth="745.0" styleClass="boardFrame" stylesheets="@../../style/game.css">
          <children>
@@ -236,5 +239,30 @@
             <Pane layoutX="680.0" layoutY="15.0" prefHeight="300.0" prefWidth="50.0" rotate="180.0" styleClass="pieceOut" stylesheets="@../../style/game.css" />
          </children>
       </AnchorPane>
+      <Button fx:id="rollButton" layoutX="863.0" layoutY="582.0" mnemonicParsing="false" onAction="#rolling" text="ROLL!">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Label fx:id="player1" layoutX="842.0" layoutY="20.0" text="Player 1">
+         <font>
+            <Font size="39.0" />
+         </font>
+      </Label>
+      <Label fx:id="player2" layoutX="842.0" layoutY="104.0" text="Player 2">
+         <font>
+            <Font size="39.0" />
+         </font>
+      </Label>
+      <Text fx:id="p1star" layoutX="1016.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
+         <font>
+            <Font size="39.0" />
+         </font>
+      </Text>
+      <Text fx:id="p2star" layoutX="1016.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
+         <font>
+            <Font size="39.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

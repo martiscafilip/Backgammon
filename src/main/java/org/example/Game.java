@@ -6,16 +6,19 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -31,6 +34,8 @@ public class Game implements Initializable {
     private Pane table;
     @FXML
     private AnchorPane board;
+    @FXML
+    private AnchorPane bigboard;
     @FXML
     private Pane p1;
     @FXML
@@ -58,8 +63,19 @@ public class Game implements Initializable {
     private Integer playerNr = 0;
     private PrintWriter out;
     private BufferedReader in;
-    private ArrayList<ImageView> jetons = new ArrayList<>();
-    private ArrayList<Pane> panes = new ArrayList<>();
+    private final ArrayList<ImageView> jetons = new ArrayList<>();
+    private final ArrayList<Pane> panes = new ArrayList<>();
+    @FXML
+    private Label player1;
+    @FXML
+    private Label player2;
+    @FXML
+    private Text p1star;
+    @FXML
+    private Text p2star;
+
+    private final String redstyle= "-fx-background-color: red ;-fx-border-color: black";;
+    private final String greenstyle= "-fx-background-color: green ;-fx-border-color: black";
 
 
     public void back() {
@@ -77,6 +93,17 @@ public class Game implements Initializable {
         String position = "";
         position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY));
         out.println(position);
+
+if(playerNr==1) {
+    player1.setStyle(redstyle);
+    player2.setStyle(greenstyle);
+}
+else
+{
+    player2.setStyle(redstyle);
+    player1.setStyle(greenstyle);
+}
+
 
         board.setDisable(true);
         selected = null;
@@ -124,15 +151,26 @@ public class Game implements Initializable {
 
     public Pane getpane(String id) {
         for (Pane pane : panes) {
-            System.out.println(pane.getId() + " getpane");
             if (id.equals(pane.getId())) {
-                System.out.println("found");
                 return pane;
             }
         }
-        System.out.println("am trimis null:(");
         return null;
     }
+
+    public void rolling()
+    {
+        Random rand = new Random();
+        int randomNum1 = rand.nextInt((6 - 1) + 1) + 1;
+        int randomNum2 = rand.nextInt((6 - 1) + 1) + 1;
+
+
+        System.out.println("random numbers: "+ randomNum1 + " " + randomNum2);
+
+
+
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -159,13 +197,17 @@ public class Game implements Initializable {
         if (playerNr == 0) {
             try {
                 response = in.readLine();
-
                 System.out.println(response);
+                player1.setStyle(greenstyle);
+                player2.setStyle(redstyle);
                 if (response.equals("1")) {
+
+                    bigboard.getChildren().remove(p2star);
                     playerNr = 1;
 
                 } else {
                     playerNr = 2;
+                    bigboard.getChildren().remove(p1star);
                     board.setDisable(true);
                 }
             } catch (IOException e) {
@@ -180,6 +222,16 @@ public class Game implements Initializable {
                     response2 = in.readLine();
                     String[] parts = response2.split("\\^");
 
+                    if(playerNr==1) {
+                        player1.setStyle(greenstyle);
+                        player2.setStyle(redstyle);
+                    }
+                    else
+                    {
+                        player1.setStyle(redstyle);
+                        player2.setStyle(greenstyle);
+
+                    }
                     board.setDisable(false);
 
                     Platform.runLater(new Runnable() {
@@ -200,13 +252,8 @@ public class Game implements Initializable {
         }).start();
 
 
-//        j1.setMouseTransparent(true);
-//        j2.setMouseTransparent(true);
-//        j3.setMouseTransparent(true);
         positionX = 0;
         positionY = 100;
-//        parent = (Pane) pTest.getParent();
-        System.out.println(parent);
 
         board.addEventFilter(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
             @Override

@@ -1,49 +1,65 @@
-.top{
+.top {
     -fx-border-color: black;
 }
 
-.border{
+.border {
     -fx-border-color: black;
 }
 
-.boardBackground{
+.boardBackground {
     -fx-background-image: url("../images/BoardBackground.png");
     -fx-background-repeat: stretch;
     -fx-background-position: bottom;
     -fx-background-size: 100% 100%;
 }
 
-.boardFrame{
+.boardFrame {
     -fx-background-image: url("../images/BoardFrame.png");
     -fx-background-repeat: stretch;
     -fx-background-position: bottom;
     -fx-background-size: 100% 100%;
 }
 
-.spikeBrown{
+.spikeBrown {
     -fx-background-image: url("../images/SpikeBrown.png");
     -fx-background-repeat: stretch;
     -fx-background-position: bottom;
     -fx-background-size: 100% 100%;
 }
 
-.spikeRed{
+.spikeRed {
     -fx-background-image: url("../images/SpikeRed.png");
     -fx-background-repeat: stretch;
     -fx-background-position: bottom;
     -fx-background-size: 100% 100%;
 }
 
-.middleBar{
+.middleBar {
     -fx-background-image: url("../images/MiddleBar.png");
     -fx-background-repeat: stretch;
     -fx-background-position: bottom;
     -fx-background-size: 100% 100%;
 }
 
-.pieceOut{
+.pieceOut {
     -fx-background-image: url("../images/PieceOut.png");
     -fx-background-repeat: stretch;
     -fx-background-position: bottom;
     -fx-background-size: 100% 100%;
+
+}
+
+.green {
+    -fx-background-color: green;
+    -fx-border-color: black;
+}
+
+.red {
+    -fx-background-color: red;
+    -fx-border-color: black;
+}
+
+.green1 {
+    -fx-background-color: green;
+    -fx-border-color: black;
 }
