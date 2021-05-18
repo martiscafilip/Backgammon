@@ -34,27 +34,27 @@
                </children></Pane>
             <Pane fx:id="p12" layoutX="15.0" layoutY="415.0" prefHeight="250.0" prefWidth="50.0" styleClass="spikeRed" stylesheets="@../../style/game.css">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j15" fitHeight="50.0" fitWidth="50.0" layoutY="200.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j14" fitHeight="50.0" fitWidth="50.0" layoutY="150.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j13" fitHeight="50.0" fitWidth="50.0" layoutY="100.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j12" fitHeight="50.0" fitWidth="50.0" layoutY="50.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="j3" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j11" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
@@ -66,17 +66,17 @@
             <Pane fx:id="p9" layoutX="165.0" layoutY="415.0" prefHeight="250.0" prefWidth="50.0" styleClass="spikeBrown" stylesheets="@../../style/game.css" />
             <Pane fx:id="p8" layoutX="215.0" layoutY="415.0" prefHeight="250.0" prefWidth="50.0" styleClass="spikeRed" stylesheets="@../../style/game.css">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j10" fitHeight="50.0" fitWidth="50.0" layoutY="200.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j9" fitHeight="50.0" fitWidth="50.0" layoutY="150.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j8" fitHeight="50.0" fitWidth="50.0" layoutY="100.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
@@ -86,27 +86,27 @@
             <Pane fx:id="p7" layoutX="265.0" layoutY="415.0" prefHeight="250.0" prefWidth="50.0" styleClass="spikeBrown" stylesheets="@../../style/game.css" />
             <Pane fx:id="p6" layoutX="365.0" layoutY="415.0" prefHeight="250.0" prefWidth="50.0" styleClass="spikeRed" stylesheets="@../../style/game.css">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="200.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j7" fitHeight="50.0" fitWidth="50.0" layoutY="200.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="150.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j6" fitHeight="50.0" fitWidth="50.0" layoutY="150.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="100.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j5" fitHeight="50.0" fitWidth="50.0" layoutY="100.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="50.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j4" fitHeight="50.0" fitWidth="50.0" layoutY="50.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="p31" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j3" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
@@ -131,99 +131,99 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane layoutX="15.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css">
+            <Pane fx:id="p13" layoutX="15.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j20" fitHeight="50.0" fitWidth="50.0" layoutY="200.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j19" fitHeight="50.0" fitWidth="50.0" layoutY="150.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j18" fitHeight="50.0" fitWidth="50.0" layoutY="100.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j17" fitHeight="50.0" fitWidth="50.0" layoutY="50.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j16" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
                </children>
             </Pane>
-            <Pane layoutX="65.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css" />
-            <Pane layoutX="115.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css" />
-            <Pane layoutX="165.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css" />
-            <Pane layoutX="215.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css">
+            <Pane fx:id="p14" layoutX="65.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css" />
+            <Pane fx:id="p15" layoutX="115.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css" />
+            <Pane fx:id="p16" layoutX="165.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css" />
+            <Pane fx:id="p17" layoutX="215.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j23" fitHeight="50.0" fitWidth="50.0" layoutX="1.0" layoutY="200.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j22" fitHeight="50.0" fitWidth="50.0" layoutY="150.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j21" fitHeight="50.0" fitWidth="50.0" layoutY="100.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
                </children>
             </Pane>
-            <Pane layoutX="265.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css" />
-            <Pane layoutX="365.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css">
+            <Pane fx:id="p18" layoutX="265.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css" />
+            <Pane fx:id="p19" layoutX="365.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j28" fitHeight="50.0" fitWidth="50.0" layoutY="200.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j27" fitHeight="50.0" fitWidth="50.0" layoutY="150.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j26" fitHeight="50.0" fitWidth="50.0" layoutY="100.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j25" fitHeight="50.0" fitWidth="50.0" layoutY="50.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j24" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
                   </ImageView>
                </children>
             </Pane>
-            <Pane layoutX="415.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css" />
-            <Pane layoutX="465.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css" />
-            <Pane layoutX="515.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css" />
-            <Pane layoutX="565.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css" />
-            <Pane layoutX="615.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css">
+            <Pane fx:id="p20" layoutX="415.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css" />
+            <Pane fx:id="p21" layoutX="465.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css" />
+            <Pane fx:id="p22" layoutX="515.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css" />
+            <Pane fx:id="p23" layoutX="565.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeBrown" stylesheets="@../../style/game.css" />
+            <Pane fx:id="p24" layoutX="615.0" layoutY="15.0" prefHeight="250.0" prefWidth="50.0" rotate="180.0" styleClass="spikeRed" stylesheets="@../../style/game.css">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j30" fitHeight="50.0" fitWidth="50.0" layoutY="200.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="j29" fitHeight="50.0" fitWidth="50.0" layoutY="150.0" onMouseClicked="#follow" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceBlack.png" />
                      </image>
@@ -232,7 +232,7 @@
             </Pane>
             <Pane layoutX="680.0" layoutY="365.0" prefHeight="300.0" prefWidth="50.0" styleClass="pieceOut" stylesheets="@../../style/game.css">
                <children>
-                  <ImageView fx:id="p21" fitHeight="50.0" fitWidth="50.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="test" fitHeight="50.0" fitWidth="50.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/PieceWhite.png" />
                      </image>
