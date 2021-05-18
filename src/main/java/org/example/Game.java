@@ -57,6 +57,7 @@ public class Game implements Initializable {
     private Roll roll;
     private int dice1Value = 1;
     private int dice2Value = 2;
+    private int rollValidator=0;
 
     private Integer playerNr = 0;
     private PrintWriter out;
@@ -119,6 +120,8 @@ public class Game implements Initializable {
         position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY));
         out.println(position);
 
+        System.out.println("DICES: " + dice1Value + " " + dice2Value);
+
         if (playerNr == 1) {
             player1.setStyle(redstyle);
             player2.setStyle(greenstyle);
@@ -134,20 +137,22 @@ public class Game implements Initializable {
     }
 
     @FXML private void follow(MouseEvent event) {
-        System.out.println("follow");
-        ImageView v = (ImageView) event.getTarget();
-        offset = v.getFitWidth() / 2;
-        parent = (Pane) v.getParent();
-        positionX = v.getLayoutX();
-        positionY = v.getLayoutY();
+        if (rollValidator == 1) {
+            System.out.println("follow");
+            ImageView v = (ImageView) event.getTarget();
+            offset = v.getFitWidth() / 2;
+            parent = (Pane) v.getParent();
+            positionX = v.getLayoutX();
+            positionY = v.getLayoutY();
 
-        selected = v;
-        if (v.getParent() != board) {
-            board.getChildren().add(v);
-            v.setLayoutX(x - offset);
-            v.setLayoutY(y - offset);
+            selected = v;
+            if (v.getParent() != board) {
+                board.getChildren().add(v);
+                v.setLayoutX(x - offset);
+                v.setLayoutY(y - offset);
+            }
+            v.setMouseTransparent(true);
         }
-        v.setMouseTransparent(true);
     }
 
     @FXML private void enter(MouseEvent event) {
@@ -191,13 +196,10 @@ public class Game implements Initializable {
     }
 
     public void rolling() {
-//        Random rand = new Random();
-//        int randomNum1 = rand.nextInt((6 - 1) + 1) + 1;
-//        int randomNum2 = rand.nextInt((6 - 1) + 1) + 1;
-//
-//
-//        System.out.println("random numbers: " + randomNum1 + " " + randomNum2);
-        roll.start();
+        if(rollValidator==0) {
+            roll.start();
+            rollValidator=1;
+        }
     }
 
     @Override
@@ -238,6 +240,7 @@ public class Game implements Initializable {
 
                 } else {
                     playerNr = 2;
+                    board.rotateProperty().setValue(180);
                     bigboard.getChildren().remove(p1star);
                     board.setDisable(true);
                 }
@@ -259,9 +262,9 @@ public class Game implements Initializable {
                     } else {
                         player1.setStyle(redstyle);
                         player2.setStyle(greenstyle);
-
                     }
                     board.setDisable(false);
+                    rollValidator=0;
 
                     Platform.runLater(new Runnable() {
                         @Override
@@ -302,19 +305,19 @@ public class Game implements Initializable {
         board.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-//                System.out.println("handleclicked");
-                System.out.println(selected);
-                System.out.println(parent);
-                x = event.getX();
-                y = event.getY();
-                if ((event.getTarget() instanceof Pane) && (event.getTarget() != table) && (event.getTarget() != board)) {
-                    parent = (Pane) event.getTarget();
-                    positionX = 0;
-                    positionY = 200 - parent.getChildren().size() * 50;
-                }
-                if (selected != null) {
-                    back();
-                }
+               System.out.println("handleclicked");
+//                System.out.println(selected);
+//                System.out.println(parent);
+                    x = event.getX();
+                    y = event.getY();
+                    if ((event.getTarget() instanceof Pane) && (event.getTarget() != table) && (event.getTarget() != board)) {
+                        parent = (Pane) event.getTarget();
+                        positionX = 0;
+                        positionY = 200 - parent.getChildren().size() * 50;
+                    }
+                    if (selected != null) {
+                        back();
+                    }
             }
         });
 
