@@ -49,6 +49,13 @@
 
 }
 
+.diceBorder{
+    /*-fx-border-color: black;*/
+    /*-fx-border-width: 10;*/
+    /*-fx-border-image-insets: 5;*/
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 20, 0, 0, 0);
+}
+
 .green {
     -fx-background-color: green;
     -fx-border-color: black;

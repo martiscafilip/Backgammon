@@ -1,12 +1,15 @@
 package org.example;
 
 import extra.Network;
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -14,8 +17,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,31 +29,22 @@ import java.util.Scanner;
 
 public class Game implements Initializable {
 
-    @FXML
-    private ImageView j1;
-    @FXML
-    private ImageView j2;
-    @FXML
-    private ImageView j3;
-    @FXML
-    private Pane table;
-    @FXML
-    private AnchorPane board;
-    @FXML
-    private AnchorPane bigboard;
-    @FXML
-    private Pane p1;
-    @FXML
-    private Pane p2;
-    @FXML
-    private Pane p3;
-    @FXML
-    private Pane p4;
-    @FXML
-    private Pane p5;
-    @FXML
-    private Pane p6;
+    @FXML private ImageView j1;
+    @FXML private ImageView j2;
+    @FXML private ImageView j3;
+    @FXML private Pane table;
+    @FXML private AnchorPane board;
+    @FXML private AnchorPane bigboard;
+    @FXML private Pane p1;
+    @FXML private Pane p2;
+    @FXML private Pane p3;
+    @FXML private Pane p4;
+    @FXML private Pane p5;
+    @FXML private Pane p6;
 
+    @FXML private ImageView dice1;
+    @FXML private ImageView dice2;
+    @FXML private Button rollButton;
 
 
     private ImageView selected = null;
@@ -56,27 +52,56 @@ public class Game implements Initializable {
 
     private double positionX;
     private double positionY;
-    private Pane parent;
-
     private double x, y;
+    private Pane parent;
+    private Roll roll;
+    private int dice1Value = 1;
+    private int dice2Value = 2;
 
     private Integer playerNr = 0;
     private PrintWriter out;
     private BufferedReader in;
+
     private final ArrayList<ImageView> jetons = new ArrayList<>();
     private final ArrayList<Pane> panes = new ArrayList<>();
-    @FXML
-    private Label player1;
-    @FXML
-    private Label player2;
-    @FXML
-    private Text p1star;
-    @FXML
-    private Text p2star;
+
+    @FXML private Label player1;
+    @FXML private Label player2;
+    @FXML private Text p1star;
+    @FXML private Text p2star;
 
     private final String redstyle= "-fx-background-color: red ;-fx-border-color: black";;
     private final String greenstyle= "-fx-background-color: green ;-fx-border-color: black";
 
+    private class Roll extends AnimationTimer {
+
+        private long FRAMES_PER_SEC = 20l;
+        private long INTERVAL = 1000000000l/FRAMES_PER_SEC;
+        private int MAX_ROLLS = 20;
+
+        private Random rand = new Random();
+        private long last = 0;
+        private int count = 0;
+
+        @Override
+        public void handle(long now) {
+            if(now - last > INTERVAL){
+//                int face = (int) (Math.random() * 6) + 1;
+                dice1Value = rand.nextInt((6 - 1) + 1) + 1;
+                dice2Value = rand.nextInt((6 - 1) + 1) + 1;
+                changeFace(dice1Value, dice1);
+                changeFace(dice2Value, dice2);
+                last = now;
+                count++;
+                rollButton.setDisable(true);
+                if(count > MAX_ROLLS) {
+                    roll.stop();
+                    count = 0;
+                    rollButton.setDisable(false);
+                }
+            }
+        }
+    }
 
     public void back() {
         System.out.println("back");
@@ -94,27 +119,21 @@ public class Game implements Initializable {
         position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY));
         out.println(position);
 
-if(playerNr==1) {
-    player1.setStyle(redstyle);
-    player2.setStyle(greenstyle);
-}
-else
-{
-    player2.setStyle(redstyle);
-    player1.setStyle(greenstyle);
-}
+        if (playerNr == 1) {
+            player1.setStyle(redstyle);
+            player2.setStyle(greenstyle);
+        } else {
+            player2.setStyle(redstyle);
+            player1.setStyle(greenstyle);
+        }
 
 
         board.setDisable(true);
         selected = null;
         parent = null;
-//
-
-
     }
 
-    @FXML
-    private void follow(MouseEvent event) {
+    @FXML private void follow(MouseEvent event) {
         System.out.println("follow");
         ImageView v = (ImageView) event.getTarget();
         offset = v.getFitWidth() / 2;
@@ -131,8 +150,7 @@ else
         v.setMouseTransparent(true);
     }
 
-    @FXML
-    private void enter(MouseEvent event) {
+    @FXML private void enter(MouseEvent event) {
         System.out.println("enter");
         if (selected != null) {
             positionX = 0;
@@ -158,22 +176,35 @@ else
         return null;
     }
 
-    public void rolling()
-    {
-        Random rand = new Random();
-        int randomNum1 = rand.nextInt((6 - 1) + 1) + 1;
-        int randomNum2 = rand.nextInt((6 - 1) + 1) + 1;
+    @FXML private void changeFace(int face, ImageView dice){
+//        int face = (int) (Math.random() * 6) + 1;
 
-
-        System.out.println("random numbers: "+ randomNum1 + " " + randomNum2);
-
-
-
+        File file = new File("src/main/resources/images/Dice"+face+".png");
+        String url = null;
+        try {
+            url = file.toURI().toURL().toExternalForm();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Image image = new Image(url);
+        dice.setImage(image);
     }
 
+    public void rolling() {
+//        Random rand = new Random();
+//        int randomNum1 = rand.nextInt((6 - 1) + 1) + 1;
+//        int randomNum2 = rand.nextInt((6 - 1) + 1) + 1;
+//
+//
+//        System.out.println("random numbers: " + randomNum1 + " " + randomNum2);
+        roll.start();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        changeFace((int) Math.random()*6+1, dice1);
+        changeFace((int) Math.random()*6+1, dice2);
+        roll = new Roll();
 
         jetons.add(j1);
         jetons.add(j2);
@@ -222,12 +253,10 @@ else
                     response2 = in.readLine();
                     String[] parts = response2.split("\\^");
 
-                    if(playerNr==1) {
+                    if (playerNr == 1) {
                         player1.setStyle(greenstyle);
                         player2.setStyle(redstyle);
-                    }
-                    else
-                    {
+                    } else {
                         player1.setStyle(redstyle);
                         player2.setStyle(greenstyle);
 
