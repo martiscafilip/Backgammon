@@ -18,4 +18,10 @@ public class Player2 {
         return jetons.contains(jeton);
     }
 
+    public void setTransparent(boolean transparent){
+        for(ImageView iv : jetons){
+            iv.setMouseTransparent(transparent);
+        }
+    }
+
 }

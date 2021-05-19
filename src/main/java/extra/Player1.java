@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Player1 {
     private final ArrayList<ImageView> jetons = new ArrayList<>();
@@ -18,8 +19,9 @@ public class Player1 {
         return jetons.contains(jeton);
     }
 
-
-
-
-
+    public void setTransparent(boolean transparent){
+        for(ImageView iv : jetons){
+            iv.setMouseTransparent(transparent);
+        }
+    }
 }
