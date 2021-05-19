@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -263,6 +264,7 @@ public class Game implements Initializable {
                 if (high3 != null)
                     high3.setStyle("-fx-border: 0");
 
+//                overlap(parent, false);
                 selected = null;
                 parent = null;
                 return;
@@ -288,6 +290,8 @@ public class Game implements Initializable {
                     high2.setStyle("-fx-border: 0");
                 if (high3 != null)
                     high3.setStyle("-fx-border: 0");
+
+//                overlap(parent, false);
                 selected = null;
                 parent = null;
                 return;
@@ -304,7 +308,7 @@ public class Game implements Initializable {
         selected.setLayoutX(positionX);
         selected.setLayoutY(positionY);
 
-        if (parent.getChildren().size() > 4)
+//        if (parent.getChildren().size() > 4)
             overlap(parent, false);
 
         try {
@@ -344,6 +348,7 @@ public class Game implements Initializable {
         }
 
         if (parent2.getId().equals(parent.getId())) {
+//            overlap(parent, false);
             selected = null;
             parent = null;
             return;
@@ -352,6 +357,7 @@ public class Game implements Initializable {
         if (dice1Value + dice2Value > 0) {
             position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY)).concat("^");
 
+//            overlap(parent,false);
             selected = null;
             parent = null;
             return;
@@ -395,6 +401,7 @@ public class Game implements Initializable {
             positionXX = positionX;
             positionYY = positionY;
             selected = v;
+//            overlap(parent, true);
 
             String highlight1 = "p";
             String highlight2 = "p";
@@ -427,7 +434,9 @@ public class Game implements Initializable {
 
 
             if (v.getParent() != board) {
+                Pane prnt = (Pane)v.getParent();
                 board.getChildren().add(v);
+                overlap(prnt, true);
                 v.setLayoutX(x - offset);
                 v.setLayoutY(y - offset);
             }
@@ -555,6 +564,8 @@ public class Game implements Initializable {
 //            System.out.println("Copil2: "+children.get(1).getLayoutY());
             double overlap = 150 - children.get(1).getLayoutY();
             System.out.println("Overlap: " + overlap);
+            if(overlap < 0.1)
+                return 0;
             return overlap * (-1);
         }
 
@@ -577,16 +588,19 @@ public class Game implements Initializable {
         double size = list.size();
         double newY;
         double value;
-        double overlap = getOverlap(pane);
+        int  overlap = (int) getOverlap(pane);
         double pieceHeight = 50;
         ImageView view;
 
         if (size > 4) {
 //            System.out.println(view1.getFitHeight());
-            if (!reverse)
-                newY = ((pieceHeight - overlap) / (size));
-            else
-                newY = ((pieceHeight) / size + 1);
+            if (!reverse){
+                newY = ((pieceHeight-overlap) / (size));
+//                if(newY < 0){
+//                    newY = 0;
+//                }
+            } else
+                newY = ((pieceHeight+overlap)/ (size));
             value = newY;
 //            value = (pieceHeight * (size - 4))/(size);
 
@@ -596,9 +610,9 @@ public class Game implements Initializable {
 //                view.setLayoutY(view.getLayoutY() + value);
 
                 if (!reverse)
-                    moveAnimation(view, value);
+                    moveAnimation(view, value - overlap);
                 else
-                    moveAnimation(view, -value);
+                    moveAnimation(view, -value + overlap);
 
                 value = value + newY;
             }
@@ -717,16 +731,17 @@ public class Game implements Initializable {
                 y = event.getY();
                 if ((event.getTarget() instanceof Pane) && (event.getTarget() != table) && (event.getTarget() != board)) {
                     parent = (Pane) event.getTarget();
-                    if (parent.getChildren().size() < 4) {
+                    if (parent.getChildren().size() <= 4) {
                         positionX = 0;
                         positionY = 200 - parent.getChildren().size() * 50;
                     } else {
-//                        overlap(parent, false);
                         positionX = 0;
                         positionY = 0;
+//                        overlap(parent, false);
                     }
                 }
                 if (selected != null) {
+                    overlap(parent, false);
                     back();
                 }
             }
