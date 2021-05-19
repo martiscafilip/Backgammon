@@ -200,7 +200,6 @@ public class Game implements Initializable {
 
     private Pane high1;
     private Pane high2;
-    private Pane high3;
     @FXML
     private Pane middleBlack;
     @FXML
@@ -242,38 +241,10 @@ public class Game implements Initializable {
     public void back() {
         System.out.println("back");
 
-        if (playerNr == 1) {
+        if (playerNr == 2) {
             if ((Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) != dice1Value
-                    && Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) != dice2Value
-                    && Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) != (dice2Value + dice1Value))
-                    || !first.validateStack(parent, position, middleBlack)) {
-                if (selected.isMouseTransparent()) {
-                    selected.setMouseTransparent(false);
-                    first.setTransparent(false);
-                }
-                selected.setLayoutX(positionXX);
-                selected.setLayoutY(positionYY);
-
-                if (parent2.getChildren().size() > 4)
-                    overlap(parent2, false);
-                parent2.getChildren().add(selected);
-                if (high1 != null)
-                    high1.setStyle("-fx-border: 0");
-                if (high2 != null)
-                    high2.setStyle("-fx-border: 0");
-                if (high3 != null)
-                    high3.setStyle("-fx-border: 0");
-
-//                overlap(parent, false);
-                selected = null;
-                parent = null;
-                return;
-            }
-        } else {
-            if ((Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice1Value
-                    && Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice2Value
-                    && Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != (dice2Value + dice1Value))
-                    || !second.validateStack(parent, position, middleWhite)) {
+                    && Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) != dice2Value)
+                    || !second.validateStack(parent, position, middleBlack)) {
                 if (selected.isMouseTransparent()) {
                     selected.setMouseTransparent(false);
                     second.setTransparent(false);
@@ -288,8 +259,30 @@ public class Game implements Initializable {
                     high1.setStyle("-fx-border: 0");
                 if (high2 != null)
                     high2.setStyle("-fx-border: 0");
-                if (high3 != null)
-                    high3.setStyle("-fx-border: 0");
+
+//                overlap(parent, false);
+                selected = null;
+                parent = null;
+                return;
+            }
+        } else {
+            if ((Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice1Value
+                    && Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice2Value)
+                    || !first.validateStack(parent, position, middleWhite)) {
+                if (selected.isMouseTransparent()) {
+                    selected.setMouseTransparent(false);
+                    first.setTransparent(false);
+                }
+                selected.setLayoutX(positionXX);
+                selected.setLayoutY(positionYY);
+
+                if (parent2.getChildren().size() > 4)
+                    overlap(parent2, false);
+                parent2.getChildren().add(selected);
+                if (high1 != null)
+                    high1.setStyle("-fx-border: 0");
+                if (high2 != null)
+                    high2.setStyle("-fx-border: 0");
 
 //                overlap(parent, false);
                 selected = null;
@@ -324,10 +317,8 @@ public class Game implements Initializable {
             high1.setStyle("-fx-border: 0");
         if (high2 != null)
             high2.setStyle("-fx-border: 0");
-        if (high3 != null)
-            high3.setStyle("-fx-border: 0");
 
-        if (playerNr == 1) {
+        if (playerNr == 2) {
             if (Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) == dice1Value) {
                 dice1Value = 0;
             } else if (Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) == dice2Value) {
@@ -405,18 +396,15 @@ public class Game implements Initializable {
 
             String highlight1 = "p";
             String highlight2 = "p";
-            String highlight3 = "p";
 
-            if (playerNr == 1) {
+            if (playerNr == 2) {
                 highlight1 = highlight1.concat(((Integer) (dice1Value + Integer.parseInt(parent2.getId().substring(1)))).toString());
                 highlight2 = highlight2.concat(((Integer) (dice2Value + Integer.parseInt(parent2.getId().substring(1)))).toString());
-                highlight3 = highlight3.concat(((Integer) (diceSum + Integer.parseInt(parent2.getId().substring(1)))).toString());
-                first.setTransparent(true);
+                second.setTransparent(true);
             } else {
                 highlight1 = highlight1.concat(((Integer) (Integer.parseInt(parent2.getId().substring(1)) - dice1Value)).toString());
                 highlight2 = highlight2.concat(((Integer) (Integer.parseInt(parent2.getId().substring(1)) - dice2Value)).toString());
-                highlight3 = highlight3.concat(((Integer) (Integer.parseInt(parent2.getId().substring(1)) - diceSum)).toString());
-                second.setTransparent(true);
+                first.setTransparent(true);
             }
 
             if (Integer.parseInt(highlight1.substring(1)) >= 1 && Integer.parseInt(highlight1.substring(1)) <= 24) {
@@ -427,10 +415,7 @@ public class Game implements Initializable {
                 high2 = getpane(highlight2);
                 if (dice2Value > 0) high2.setStyle("-fx-border-color: red");
             }
-            if (Integer.parseInt(highlight3.substring(1)) >= 1 && Integer.parseInt(highlight3.substring(1)) <= 24) {
-                high3 = getpane(highlight3);
-                if (dice1Value > 0 && dice2Value > 0) high3.setStyle("-fx-border-color: red");
-            }
+
 
 
             if (v.getParent() != board) {
@@ -545,6 +530,8 @@ public class Game implements Initializable {
         panes.add(p22);
         panes.add(p23);
         panes.add(p24);
+        panes.add(middleWhite);
+        panes.add(middleBlack);
     }
 
     private List<ImageView> getAllChildren(Pane root) {
@@ -647,13 +634,12 @@ public class Game implements Initializable {
                 player1.setStyle(greenstyle);
                 player2.setStyle(redstyle);
                 if (response.equals("1")) {
-                    board.rotateProperty().setValue(180);
                     bigboard.getChildren().remove(p2star);
                     playerNr = 1;
 
                 } else {
                     playerNr = 2;
-
+                    board.rotateProperty().setValue(180);
                     bigboard.getChildren().remove(p1star);
                     board.setDisable(true);
                 }
