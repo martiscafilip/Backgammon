@@ -21,7 +21,7 @@
             <Pane fx:id="table" layoutX="15.0" layoutY="15.0" prefHeight="650.0" prefWidth="650.0" styleClass="boardBackground" stylesheets="@../../style/game.css" />
             <Pane layoutX="315.0" layoutY="13.0" prefHeight="654.0" prefWidth="50.0" styleClass="middleBar" stylesheets="@../../style/game.css">
                <children>
-                  <Pane layoutY="127.0" prefHeight="200.0" prefWidth="50.0" rotate="180.0" stylesheets="@../../style/game.css">
+                  <Pane fx:id="middleBlack" layoutY="127.0" prefHeight="200.0" prefWidth="50.0" rotate="180.0" stylesheets="@../../style/game.css">
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -30,7 +30,7 @@
                         </ImageView>
                      </children>
                   </Pane>
-                  <Pane layoutY="327.0" prefHeight="200.0" prefWidth="50.0" stylesheets="@../../style/game.css" />
+                  <Pane fx:id="middleWhite" layoutY="327.0" prefHeight="200.0" prefWidth="50.0" stylesheets="@../../style/game.css" />
                </children></Pane>
             <Pane fx:id="p12" layoutX="15.0" layoutY="415.0" prefHeight="250.0" prefWidth="50.0" styleClass="spikeRed" stylesheets="@../../style/game.css">
                <children>
