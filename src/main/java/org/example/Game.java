@@ -575,35 +575,25 @@ public class Game implements Initializable {
         double size = list.size();
         double newY;
         double value;
-        int  overlap = (int) getOverlap(pane);
+//        int  overlap = (int) getOverlap(pane);
         double pieceHeight = 50;
         ImageView view;
 
         if (size > 4) {
-//            System.out.println(view1.getFitHeight());
-            if (!reverse){
-                newY = ((pieceHeight-overlap) / (size));
-//                if(newY < 0){
-//                    newY = 0;
-//                }
-            } else
-                newY = ((pieceHeight+overlap)/ (size));
+            newY = ((pieceHeight) / (size));
             value = newY;
-//            value = (pieceHeight * (size - 4))/(size);
 
+//            System.out.println("Rotation:"+pane.getRotate());
             for (int i = 1; i < size; i++) {
-//                view = list.get(i);
                 view = list.get(i);
-//                view.setLayoutY(view.getLayoutY() + value);
 
                 if (!reverse)
-                    moveAnimation(view, value - overlap);
+                    moveAnimation(view, value);
                 else
-                    moveAnimation(view, -value + overlap);
+                    moveAnimation(view, -value);
 
                 value = value + newY;
             }
-//            System.out.println("Translate: "+view2.getLayoutY());
         }
     }
 
@@ -669,18 +659,39 @@ public class Game implements Initializable {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
+                            Pane pane = (Pane) getjeton(parts[1]).getParent();
+                            Pane pane1 = (Pane) getjeton(parts[5]).getParent();
                             getjeton(parts[1]).setLayoutX(Double.parseDouble(parts[2]));
                             getjeton(parts[1]).setLayoutY(Double.parseDouble(parts[3]));
+
+                            if(!pane.equals(pane1))
+                                overlap(getpane(parts[0]), false);
+
                             (getpane(parts[0])).getChildren().add(getjeton(parts[1]));
+
+                            if(!pane.equals(pane1))
+                                overlap(pane, true);
+
+                            pane = getpane(parts[0]);
                             if(parts[4]!=null) {
                                 getjeton(parts[5]).setLayoutX(Double.parseDouble(parts[6]));
                                 getjeton(parts[5]).setLayoutY(Double.parseDouble(parts[7]));
+
+                                if(!pane.equals(pane1))
+                                    overlap(getpane(parts[4]), false);
+
                                 (getpane(parts[4])).getChildren().add(getjeton(parts[5]));
+
+                                if(!pane.equals(pane1))
+                                    overlap(pane1, true);
                             }
                             if(parts[8]!=null) {
+                                Pane pane2 = (Pane) getjeton(parts[5]).getParent();
                                 getjeton(parts[9]).setLayoutX(Double.parseDouble(parts[10]));
                                 getjeton(parts[9]).setLayoutY(Double.parseDouble(parts[11]));
+//                                overlap(getpane(parts[8]), false);
                                 (getpane(parts[12])).getChildren().add(getjeton(parts[9]));
+//                                overlap(pane2, true);
                             }
                         }
                     });
