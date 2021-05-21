@@ -1,15 +1,12 @@
 package extra;
 
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class Player1 {
     private final ArrayList<ImageView> jetons = new ArrayList<>();
@@ -29,21 +26,48 @@ public class Player1 {
         }
     }
 
-    public Boolean validateStack(Pane parent, String message, Pane middleBlack)
+    public Boolean validateStack(Pane parent)
     {
-       ObservableList<Node> list =  parent.getChildren();
-       if(list.isEmpty()) return true;
-       if(list.size()==1 && !jetons.contains(list.get(0)))
-       {
+        ObservableList<Node> list =  parent.getChildren();
+        if(list.isEmpty()) return true;
+        if(list.size()==1 && !jetons.contains(list.get(0))) return false;
 
-           message = message.concat(middleBlack.getId()).concat("^").concat(list.get(0).getId()).concat("^").concat(String.valueOf(0)).concat("^").concat(String.valueOf(150)).concat("^");
-           middleBlack.getChildren().add(list.get(0));
-           return true;
-       }
         for (Node node : list) {
             return jetons.contains(node);
         }
         return null;
     }
 
+    public Boolean getOut(Pane parent)
+    {
+        ObservableList<Node> list =  parent.getChildren();
+        if(list.size()==1 && !jetons.contains(list.get(0))) return true;
+        return  false;
+    }
+
+    public Integer dice1ValueChange(Pane parent, Pane parent2, Integer dice1Value)
+    {
+        if (Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) == dice1Value) {
+            return 0;
+        }
+        else return dice1Value;
+    }
+
+    public Integer dice2ValueChange(Pane parent, Pane parent2, Integer dice2Value)
+    {
+        if (Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) == dice2Value) {
+            return 0;
+        }
+        else return dice2Value;
+    }
+
+    public Boolean bothDicesValueChange(Pane parent, Pane parent2,Integer dice1Value, Integer dice2Value)
+    {
+        if (Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice1Value
+                && Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice2Value)
+        {
+            return true;
+        }
+        return  false;
+    }
 }

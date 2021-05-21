@@ -8,6 +8,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,144 +38,41 @@ import java.util.ResourceBundle;
 public class Game implements Initializable {
 
     @FXML
-    private ImageView j1;
+    private ImageView j1, j2, j3, j4, j5, j6, j7, j8, j9, j10;
     @FXML
-    private ImageView j2;
+    private ImageView j11, j12, j13, j14, j15, j16, j17, j18, j19, j20;
     @FXML
-    private ImageView j3;
-    @FXML
-    private ImageView j4;
-    @FXML
-    private ImageView j5;
-    @FXML
-    private ImageView j6;
-    @FXML
-    private ImageView j7;
-    @FXML
-    private ImageView j8;
-    @FXML
-    private ImageView j9;
-    @FXML
-    private ImageView j10;
-    @FXML
-    private ImageView j11;
-    @FXML
-    private ImageView j12;
-    @FXML
-    private ImageView j13;
-    @FXML
-    private ImageView j14;
-    @FXML
-    private ImageView j15;
-    @FXML
-    private ImageView j16;
-    @FXML
-    private ImageView j17;
-    @FXML
-    private ImageView j18;
-    @FXML
-    private ImageView j19;
-    @FXML
-    private ImageView j20;
-    @FXML
-    private ImageView j21;
-    @FXML
-    private ImageView j22;
-    @FXML
-    private ImageView j23;
-    @FXML
-    private ImageView j24;
-    @FXML
-    private ImageView j25;
-    @FXML
-    private ImageView j26;
-    @FXML
-    private ImageView j27;
-    @FXML
-    private ImageView j28;
-    @FXML
-    private ImageView j29;
-    @FXML
-    private ImageView j30;
-
+    private ImageView j21, j22, j23, j24, j25, j26, j27, j28, j29, j30;
     @FXML
     private Pane table;
     @FXML
-    private AnchorPane board;
+    private AnchorPane board, bigboard;
     @FXML
-    private AnchorPane bigboard;
-
+    private Pane p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12;
     @FXML
-    private Pane p1;
+    private Pane p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24;
     @FXML
-    private Pane p2;
-    @FXML
-    private Pane p3;
-    @FXML
-    private Pane p4;
-    @FXML
-    private Pane p5;
-    @FXML
-    private Pane p6;
-    @FXML
-    private Pane p7;
-    @FXML
-    private Pane p8;
-    @FXML
-    private Pane p9;
-    @FXML
-    private Pane p10;
-    @FXML
-    private Pane p11;
-    @FXML
-    private Pane p12;
-    @FXML
-    private Pane p13;
-    @FXML
-    private Pane p14;
-    @FXML
-    private Pane p15;
-    @FXML
-    private Pane p16;
-    @FXML
-    private Pane p17;
-    @FXML
-    private Pane p18;
-    @FXML
-    private Pane p19;
-    @FXML
-    private Pane p20;
-    @FXML
-    private Pane p21;
-    @FXML
-    private Pane p22;
-    @FXML
-    private Pane p23;
-    @FXML
-    private Pane p24;
-
-    @FXML
-    private ImageView dice1;
-    @FXML
-    private ImageView dice2;
+    private ImageView dice1, dice2;
     @FXML
     private Button rollButton;
+    @FXML
+    private Label player1, player2;
+    @FXML
+    private Text p1star, p2star;
+    @FXML
+    private Pane middleBlack, middleWhite;
 
 
     private ImageView selected = null;
     private double offset;
 
-    private double positionX;
-    private double positionY;
-    private double positionXX;
-    private double positionYY;
+    private double positionX, positionY;
+    private double positionXX, positionYY;
     private double x, y;
-    private Pane parent;
-    private Pane parent2;
+    private Pane parent, parent2;
     private Roll roll;
-    private Integer dice1Value = 1;
-    private Integer dice2Value = 2;
-    private Integer diceSum;
+    private Integer dice1Value = 1, dice2Value = 2;
+    private Integer dice3Value = 0, dice4Value = 0;
     private int rollValidator = 0;
 
     private Integer playerNr = 0;
@@ -184,14 +82,6 @@ public class Game implements Initializable {
     private final ArrayList<ImageView> jetons = new ArrayList<>();
     private final ArrayList<Pane> panes = new ArrayList<>();
 
-    @FXML
-    private Label player1;
-    @FXML
-    private Label player2;
-    @FXML
-    private Text p1star;
-    @FXML
-    private Text p2star;
     private Player1 first;
     private Player2 second;
 
@@ -200,12 +90,11 @@ public class Game implements Initializable {
 
     private Pane high1;
     private Pane high2;
-    @FXML
-    private Pane middleBlack;
-    @FXML
-    private Pane middleWhite;
+    private String position = "";
+    private Boolean moveFromMiddle;
+    private Integer middleWhiteCoordonate = 150;
+    private Integer middleBlackCoordonate = 150;
 
-    private String position="";
 
     private class Roll extends AnimationTimer {
 
@@ -232,7 +121,10 @@ public class Game implements Initializable {
                     roll.stop();
                     count = 0;
                     rollButton.setDisable(false);
-                    diceSum = dice1Value + dice2Value;
+                    if (dice1Value == dice2Value) {
+                        dice3Value = dice1Value;
+                        dice4Value = dice1Value;
+                    }
                 }
             }
         }
@@ -241,10 +133,57 @@ public class Game implements Initializable {
     public void back() {
         System.out.println("back");
 
-        if (playerNr == 2) {
+        if (moveFromMiddle) {
+            if (playerNr == 2) {
+                if ((Integer.parseInt(parent.getId().substring(1)) != dice1Value
+                        && Integer.parseInt(parent.getId().substring(1)) != dice2Value)
+                        || !second.validateStack(parent)) {
+                    if (selected.isMouseTransparent()) {
+                        selected.setMouseTransparent(false);
+                        second.setTransparent(false);
+                    }
+                    selected.setLayoutX(positionXX);
+                    selected.setLayoutY(positionYY);
+                    parent2.getChildren().add(selected);
+                    clearBorder();
+
+                    if (getOutFromMiddle()) {
+                        selected = null;
+                        parent = null;
+                        return;
+                    }
+                }
+            } else {
+                if ((Integer.parseInt(parent.getId().substring(1)) != (25 - dice1Value)
+                        && Integer.parseInt(parent.getId().substring(1)) != (25 - dice2Value))
+                        || (!first.validateStack(parent))) {
+                    if (selected.isMouseTransparent()) {
+                        selected.setMouseTransparent(false);
+                        second.setTransparent(false);
+                    }
+                    selected.setLayoutX(positionXX);
+                    selected.setLayoutY(positionYY);
+                    parent2.getChildren().add(selected);
+                    clearBorder();
+
+                    if (getOutFromMiddle()) {
+                        selected = null;
+                        parent = null;
+                        return;
+                    }
+                }
+            }
+        } else if (playerNr == 2) {
             if ((Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) != dice1Value
                     && Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) != dice2Value)
-                    || !second.validateStack(parent, position, middleBlack)) {
+                    || !second.validateStack(parent)) {
+
+                if (getOutFromMiddle()) {
+                    selected = null;
+                    parent = null;
+                    return;
+                }
+
                 if (selected.isMouseTransparent()) {
                     selected.setMouseTransparent(false);
                     second.setTransparent(false);
@@ -255,20 +194,23 @@ public class Game implements Initializable {
                 if (parent2.getChildren().size() > 4)
                     overlap(parent2, false);
                 parent2.getChildren().add(selected);
-                if (high1 != null)
-                    high1.setStyle("-fx-border: 0");
-                if (high2 != null)
-                    high2.setStyle("-fx-border: 0");
+                clearBorder();
 
 //                overlap(parent, false);
                 selected = null;
                 parent = null;
                 return;
             }
+
         } else {
             if ((Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice1Value
                     && Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice2Value)
-                    || !first.validateStack(parent, position, middleWhite)) {
+                    || !first.validateStack(parent)) {
+                if (getOutFromMiddle()) {
+                    selected = null;
+                    parent = null;
+                    return;
+                }
                 if (selected.isMouseTransparent()) {
                     selected.setMouseTransparent(false);
                     first.setTransparent(false);
@@ -279,18 +221,16 @@ public class Game implements Initializable {
                 if (parent2.getChildren().size() > 4)
                     overlap(parent2, false);
                 parent2.getChildren().add(selected);
-                if (high1 != null)
-                    high1.setStyle("-fx-border: 0");
-                if (high2 != null)
-                    high2.setStyle("-fx-border: 0");
+
+                clearBorder();
 
 //                overlap(parent, false);
                 selected = null;
                 parent = null;
                 return;
             }
-        }
 
+        }
 
         if (selected.isMouseTransparent()) {
             selected.setMouseTransparent(false);
@@ -301,86 +241,41 @@ public class Game implements Initializable {
         selected.setLayoutX(positionX);
         selected.setLayoutY(positionY);
 
-//        if (parent.getChildren().size() > 4)
-            overlap(parent, false);
+        overlap(parent, false);
 
         try {
             parent.getChildren().add(selected);
         } catch (Exception e) {
             System.out.println("Selected exception");
         }
-        System.out.println(positionX);
-        System.out.println(positionY);
-        System.out.println(parent.getChildren().size());
 
-        if (high1 != null)
-            high1.setStyle("-fx-border: 0");
-        if (high2 != null)
-            high2.setStyle("-fx-border: 0");
+        clearBorder();                                        //clear the border of the spikes that were drown
 
-        if (playerNr == 2) {
-            if (Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) == dice1Value) {
-                dice1Value = 0;
-            } else if (Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) == dice2Value) {
-                dice2Value = 0;
-            } else {
-                dice1Value = 0;
-                dice2Value = 0;
-            }
-        } else {
-            if (Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) == dice1Value) {
-                dice1Value = 0;
-            } else if (Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) == dice2Value) {
-                dice2Value = 0;
-            } else {
-                dice1Value = 0;
-                dice2Value = 0;
-            }
-        }
+        diceValueChange();                                    //based on the move of the player sets to 0 the dice that has been used
 
-        if (parent2.getId().equals(parent.getId())) {
-//            overlap(parent, false);
-            selected = null;
-            parent = null;
-            return;
-        }
-
-        if (dice1Value + dice2Value > 0) {
-            position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY)).concat("^");
-
-//            overlap(parent,false);
-            selected = null;
-            parent = null;
-            return;
-        }
-
-
-
-        position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY));
-        out.println(position);
-        position = "";
-
-        if (playerNr == 1) {
-            player1.setStyle(redstyle);
-            player2.setStyle(greenstyle);
-        } else {
-            player2.setStyle(redstyle);
-            player1.setStyle(greenstyle);
-        }
-
-
-        board.setDisable(true);
-        selected = null;
-        parent = null;
+        finalSend();                                          //sends the message to the other player if both dice were used
+        //checks if if he hasn't moved to the same place
+        //changes the color between red and green for the players' turn
     }
 
     @FXML
     private void follow(MouseEvent event) {
+        moveFromMiddle = false;
+
+        if ((playerNr == 1 && middleBlack.getChildren().size() > 0) || (playerNr == 2 && middleWhite.getChildren().size() > 0)) {
+            if (middleCheck(event)) {
+                System.out.println("merge");
+                if (playerNr == 1) middleWhiteCoordonate -= 50;
+                if (playerNr == 2) middleBlackCoordonate -= 50;
+                moveFromMiddle = true;
+            } else {
+                return;
+            }
+        }
 
         if (rollValidator == 1) {
             System.out.println("follow");
             ImageView v = (ImageView) event.getTarget();
-
             if (playerNr == 1 && !first.validatePick(v)) return;
             if (playerNr == 2 && !second.validatePick(v)) return;
 
@@ -397,35 +292,129 @@ public class Game implements Initializable {
             String highlight1 = "p";
             String highlight2 = "p";
 
-            if (playerNr == 2) {
-                highlight1 = highlight1.concat(((Integer) (dice1Value + Integer.parseInt(parent2.getId().substring(1)))).toString());
-                highlight2 = highlight2.concat(((Integer) (dice2Value + Integer.parseInt(parent2.getId().substring(1)))).toString());
-                second.setTransparent(true);
-            } else {
-                highlight1 = highlight1.concat(((Integer) (Integer.parseInt(parent2.getId().substring(1)) - dice1Value)).toString());
-                highlight2 = highlight2.concat(((Integer) (Integer.parseInt(parent2.getId().substring(1)) - dice2Value)).toString());
+            if (moveFromMiddle == false)
+            {
+                if (playerNr == 2) {
+                    highlight1 = highlight1.concat(((Integer) (dice1Value + Integer.parseInt(parent2.getId().substring(1)))).toString());
+                    highlight2 = highlight2.concat(((Integer) (dice2Value + Integer.parseInt(parent2.getId().substring(1)))).toString());
+                    second.setTransparent(true);
+                } else {
+                    highlight1 = highlight1.concat(((Integer) (Integer.parseInt(parent2.getId().substring(1)) - dice1Value)).toString());
+                    highlight2 = highlight2.concat(((Integer) (Integer.parseInt(parent2.getId().substring(1)) - dice2Value)).toString());
+                    first.setTransparent(true);
+                }
+
+                if (Integer.parseInt(highlight1.substring(1)) >= 1 && Integer.parseInt(highlight1.substring(1)) <= 24) {
+                    high1 = getpane(highlight1);
+                    if (dice1Value > 0) high1.setStyle("-fx-border-color: red");
+                }
+                if (Integer.parseInt(highlight2.substring(1)) >= 1 && Integer.parseInt(highlight2.substring(1)) <= 24) {
+                    high2 = getpane(highlight2);
+                    if (dice2Value > 0) high2.setStyle("-fx-border-color: red");
+                }
+            }
+            else {
+                if (playerNr == 2) {
+                    highlight1 = highlight1.concat(((Integer) dice1Value).toString());
+                    highlight2 = highlight2.concat(((Integer) dice2Value).toString());
+                } else {
+                    highlight1 = highlight1.concat(((Integer) (25 - dice1Value)).toString());
+                    highlight2 = highlight2.concat(((Integer) (25 - dice2Value)).toString());
+                }
                 first.setTransparent(true);
-            }
-
-            if (Integer.parseInt(highlight1.substring(1)) >= 1 && Integer.parseInt(highlight1.substring(1)) <= 24) {
+                second.setTransparent(true);
                 high1 = getpane(highlight1);
-                if (dice1Value > 0) high1.setStyle("-fx-border-color: red");
-            }
-            if (Integer.parseInt(highlight2.substring(1)) >= 1 && Integer.parseInt(highlight2.substring(1)) <= 24) {
                 high2 = getpane(highlight2);
-                if (dice2Value > 0) high2.setStyle("-fx-border-color: red");
-            }
+                if (dice1Value>0) high1.setStyle("-fx-border-color: red");
+                if(dice2Value>0) high2.setStyle("-fx-border-color: red");
 
+
+            }
 
 
             if (v.getParent() != board) {
-                Pane prnt = (Pane)v.getParent();
+                Pane prnt = (Pane) v.getParent();
                 board.getChildren().add(v);
                 overlap(prnt, true);
                 v.setLayoutX(x - offset);
                 v.setLayoutY(y - offset);
             }
 //            v.setMouseTransparent(true);
+        }
+
+
+    }
+
+    private Boolean middleCheck(MouseEvent event) {
+
+        ImageView v = (ImageView) event.getTarget();
+        Pane test = (Pane) v.getParent();
+
+        if (test.equals(middleBlack) && playerNr == 1 && test.getChildren().contains(v)) {
+            return true;
+        } else return test.equals(middleWhite) && playerNr == 2 && test.getChildren().contains(v);
+    }
+
+    private Boolean getOutFromMiddle() {
+        if (playerNr == 2) {
+            if (second.getOut(parent)) {
+                ObservableList<Node> list = parent.getChildren();
+                position = position.concat(middleBlack.getId()).concat("^").concat(list.get(0).getId()).concat("^").concat(String.valueOf(0)).concat("^").concat(String.valueOf(middleBlackCoordonate)).concat("^");
+                position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY + 50)).concat("^");
+                list.get(0).setLayoutX(0);
+                list.get(0).setLayoutY(middleBlackCoordonate);
+                middleBlackCoordonate += 50;
+                middleBlack.getChildren().add(list.get(0));
+                if (selected.isMouseTransparent()) {
+                    selected.setMouseTransparent(false);
+                    first.setTransparent(false);
+                    second.setTransparent(false);
+                }
+                selected.setLayoutX(positionX);
+                selected.setLayoutY(positionY + 50);
+                try {
+                    parent.getChildren().add(selected);
+                } catch (Exception e) {
+                    System.out.println("Selected exception");
+                }
+
+                clearBorder();
+                diceValueChange();    //based on the move of the player sets to 0 the dice that has been used
+                finalSend2();
+                return true;
+            }
+            return false;
+        } else {
+            if (first.getOut(parent)) {
+                ObservableList<Node> list = parent.getChildren();
+
+                position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY + 50)).concat("^");
+                position = position.concat(middleWhite.getId()).concat("^").concat(list.get(0).getId()).concat("^").concat(String.valueOf(0)).concat("^").concat(String.valueOf(middleWhiteCoordonate)).concat("^");
+                list.get(0).setLayoutX(0);
+                list.get(0).setLayoutY(middleWhiteCoordonate);
+                middleWhiteCoordonate += 50;
+                middleWhite.getChildren().add(list.get(0));
+
+                if (selected.isMouseTransparent()) {
+                    selected.setMouseTransparent(false);
+                    first.setTransparent(false);
+                    second.setTransparent(false);
+                }
+                selected.setLayoutX(positionX);
+                selected.setLayoutY(positionY + 50);
+                try {
+                    parent.getChildren().add(selected);
+                } catch (Exception e) {
+                    System.out.println("Selected exception");
+                }
+
+                clearBorder();
+
+                diceValueChange();    //based on the move of the player sets to 0 the dice that has been used
+                finalSend2();
+                return true;
+            }
+            return false;
         }
     }
 
@@ -444,6 +433,116 @@ public class Game implements Initializable {
             }
         }
         return null;
+    }
+
+    public void diceValueChange() {
+
+        if (moveFromMiddle) {
+            if (playerNr == 2) {
+                if (parent.getId().substring(1).equals(((Integer) dice1Value).toString())) {
+                    dice1Value = 0;
+                } else dice2Value = 0;
+                return;
+            } else {
+                if (parent.getId().substring(1).equals(((Integer) (25 - dice1Value)).toString())) {
+                    dice1Value = 0;
+                } else dice2Value = 0;
+                return;
+            }
+        }
+
+        if (dice1Value.equals(dice2Value) && dice1Value > 0) {
+            System.out.println("intra si aici cand e egal");
+            if (dice3Value != 0) dice3Value = 0;
+            else if (dice4Value != 0) dice4Value = 0;
+            else if (dice1Value != 0) dice1Value = 0;
+            else if (dice2Value != 0) dice2Value = 0;
+
+            return;
+        }
+
+        if (playerNr == 2) {                                                           //checks which dice has been used and then sets it to 0
+            dice1Value = second.dice1ValueChange(parent, parent2, dice1Value);
+            dice2Value = second.dice2ValueChange(parent, parent2, dice2Value);
+//            if (second.bothDicesValueChange(parent, parent2, dice1Value, dice2Value)) {
+//                dice1Value = 0;
+//                dice2Value = 0;
+//            }
+        } else {                                                                         //checks which dice has been used and then sets it to 0
+            dice1Value = first.dice1ValueChange(parent, parent2, dice1Value);
+            dice2Value = first.dice2ValueChange(parent, parent2, dice2Value);
+//            if (first.bothDicesValueChange(parent, parent2, dice1Value, dice2Value)) {
+//                dice1Value = 0;
+//                dice2Value = 0;
+//            }
+        }
+    }
+
+    public void clearBorder() {
+        if (high1 != null)
+            high1.setStyle("-fx-border: 0");
+        if (high2 != null)
+            high2.setStyle("-fx-border: 0");
+    }
+
+    public void changeColorOfPlayerTurn() {
+        if (playerNr == 1) {
+            player1.setStyle(redstyle);
+            player2.setStyle(greenstyle);
+        } else {
+            player2.setStyle(redstyle);
+            player1.setStyle(greenstyle);
+        }
+    }
+
+    public void finalSend() {
+
+        if (parent2.getId().equals(parent.getId())) {
+//            overlap(parent, false);
+            selected = null;
+            parent = null;
+            return;
+        }
+
+        if (dice1Value + dice2Value > 0) {
+            position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY)).concat("^");
+//          overlap(parent,false);
+            selected = null;
+            parent = null;
+            return;
+        }
+        position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY));
+        out.println(position);
+        position = "";
+        changeColorOfPlayerTurn();
+        board.setDisable(true);
+        selected = null;
+        parent = null;
+    }
+
+    public void finalSend2() {
+
+        if (parent2.getId().equals(parent.getId())) {
+//            overlap(parent, false);
+            selected = null;
+            parent = null;
+            return;
+        }
+
+        if (dice1Value + dice2Value > 0) {
+//            position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY)).concat("^");
+//          overlap(parent,false);
+            selected = null;
+            parent = null;
+            return;
+        }
+//        position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY));
+        out.println(position);
+        position = "";
+        changeColorOfPlayerTurn();
+        board.setDisable(true);
+        selected = null;
+        parent = null;
     }
 
     @FXML
@@ -465,6 +564,7 @@ public class Game implements Initializable {
         if (rollValidator == 0) {
             roll.start();
             rollValidator = 1;
+            System.out.println(dice1Value + " " + dice2Value);
         }
     }
 
@@ -551,7 +651,7 @@ public class Game implements Initializable {
 //            System.out.println("Copil2: "+children.get(1).getLayoutY());
             double overlap = 150 - children.get(1).getLayoutY();
             System.out.println("Overlap: " + overlap);
-            if(overlap < 0.1)
+            if (overlap < 0.1)
                 return 0;
             return overlap * (-1);
         }
@@ -644,6 +744,7 @@ public class Game implements Initializable {
                 try {
                     response2 = in.readLine();
                     String[] parts = response2.split("\\^");
+                    System.out.println(response2);
 
 
                     if (playerNr == 1) {
@@ -660,38 +761,48 @@ public class Game implements Initializable {
                         @Override
                         public void run() {
                             Pane pane = (Pane) getjeton(parts[1]).getParent();
-                            Pane pane1 = (Pane) getjeton(parts[5]).getParent();
+                            Pane pane1 = null, pane2 = null, pane3 = null, pane4 = null;
+                            Pane pane5 = null, pane6 = null, pane7 = null;
+
+                            ArrayList<Pane> panes = new ArrayList<>();
+
+
+                            if (parts.length > 5) pane1 = (Pane) getjeton(parts[5]).getParent();
+                            if (parts.length > 8) pane2 = (Pane) getjeton(parts[9]).getParent();
+                            if (parts.length > 12) pane3 = (Pane) getjeton(parts[13]).getParent();
+                            if (parts.length > 16) pane4 = (Pane) getjeton(parts[17]).getParent();
+                            if (parts.length > 20) pane5 = (Pane) getjeton(parts[21]).getParent();
+                            if (parts.length > 24) pane6 = (Pane) getjeton(parts[25]).getParent();
+                            if (parts.length > 28) pane7 = (Pane) getjeton(parts[29]).getParent();
+
+                            panes.add(pane1);
+                            panes.add(pane2);
+                            panes.add(pane3);
+                            panes.add(pane4);
+                            panes.add(pane5);
+                            panes.add(pane6);
+                            panes.add(pane7);
+
                             getjeton(parts[1]).setLayoutX(Double.parseDouble(parts[2]));
                             getjeton(parts[1]).setLayoutY(Double.parseDouble(parts[3]));
-
-                            if(!pane.equals(pane1))
+                            if (!pane.equals(pane1))
                                 overlap(getpane(parts[0]), false);
-
                             (getpane(parts[0])).getChildren().add(getjeton(parts[1]));
-
-                            if(!pane.equals(pane1))
+                            if (!pane.equals(pane1))
                                 overlap(pane, true);
-
                             pane = getpane(parts[0]);
-                            if(parts[4]!=null) {
-                                getjeton(parts[5]).setLayoutX(Double.parseDouble(parts[6]));
-                                getjeton(parts[5]).setLayoutY(Double.parseDouble(parts[7]));
 
-                                if(!pane.equals(pane1))
-                                    overlap(getpane(parts[4]), false);
-
-                                (getpane(parts[4])).getChildren().add(getjeton(parts[5]));
-
-                                if(!pane.equals(pane1))
-                                    overlap(pane1, true);
-                            }
-                            if(parts[8]!=null) {
-                                Pane pane2 = (Pane) getjeton(parts[5]).getParent();
-                                getjeton(parts[9]).setLayoutX(Double.parseDouble(parts[10]));
-                                getjeton(parts[9]).setLayoutY(Double.parseDouble(parts[11]));
-//                                overlap(getpane(parts[8]), false);
-                                (getpane(parts[12])).getChildren().add(getjeton(parts[9]));
-//                                overlap(pane2, true);
+                            int start = 0;
+                            for(int i=4; i<parts.length; i+=4)
+                            {
+                                getjeton(parts[i+1]).setLayoutX(Double.parseDouble(parts[i+2]));
+                                getjeton(parts[i+1]).setLayoutY(Double.parseDouble(parts[i+3]));
+                                if (!pane.equals(panes.get(start)))
+                                    overlap(getpane(parts[i]), false);
+                                (getpane(parts[i])).getChildren().add(getjeton(parts[i+1]));
+                                if (!pane.equals(panes.get(start)))
+                                    overlap(panes.get(start), true);
+                                start++;
                             }
                         }
                     });
