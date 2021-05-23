@@ -44,8 +44,12 @@ public class Start implements Initializable {
         return multiPlayer;
     }
 
-    public void singlePlayerclick() throws IOException, InterruptedException {
-        System.out.println("Am dat click pe single");
+    public void singlePlayerclick(ActionEvent event) throws IOException, InterruptedException {
+        Parent tableparent = FXMLLoader.load(getClass().getResource("gamesingle.fxml"));
+        Scene table = new Scene(tableparent);
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(table);
+        window.show();
     }
 
 

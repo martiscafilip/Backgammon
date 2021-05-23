@@ -1,0 +1,108 @@
+.top {
+    -fx-border-color: black;
+}
+
+.border {
+    -fx-border-color: black;
+}
+
+.boardBackground {
+    -fx-background-image: url("../images/BoardBackground.png");
+    -fx-background-repeat: stretch;
+    -fx-background-position: bottom;
+    -fx-background-size: 100% 100%;
+}
+
+.boardFrame {
+    -fx-background-image: url("../images/BoardFrame.png");
+    -fx-background-repeat: stretch;
+    -fx-background-position: bottom;
+    -fx-background-size: 100% 100%;
+}
+
+.spikeBrown {
+    -fx-background-image: url("../images/SpikeBrown.png");
+    -fx-background-repeat: stretch;
+    -fx-background-position: bottom;
+    -fx-background-size: 100% 100%;
+}
+
+.spikeBrownHigh {
+    -fx-background-image: url("../images/SpikeBrown.png");
+    -fx-background-repeat: stretch;
+    -fx-background-position: bottom;
+    -fx-background-size: 100% 100%;
+    -fx-effect: dropshadow(three-pass-box, rgb(255, 0, 0), 5, 0, 0, 0);
+}
+
+.spikeRedHigh {
+    -fx-background-image: url("../images/SpikeRed.png");
+    -fx-background-repeat: stretch;
+    -fx-background-position: bottom;
+    -fx-background-size: 100% 100%;
+    -fx-effect: dropshadow(three-pass-box, rgb(255, 0, 0), 5, 0, 0, 0);
+}
+
+.spikeRed {
+    -fx-background-image: url("../images/SpikeRed.png");
+    -fx-background-repeat: stretch;
+    -fx-background-position: bottom;
+    -fx-background-size: 100% 100%;
+}
+
+.middleBar {
+    -fx-background-image: url("../images/MiddleBar.png");
+    -fx-background-repeat: stretch;
+    -fx-background-position: bottom;
+    -fx-background-size: 100% 100%;
+}
+
+.diceBorder{
+    /*-fx-border-color: black;*/
+    /*-fx-border-width: 10;*/
+    /*-fx-border-image-insets: 5;*/
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 20, 0, 0, 0);
+}
+
+.pieceHigh{
+    -fx-effect: dropshadow(three-pass-box, rgb(0, 65, 255), 10, 0, 0, 0);
+}
+
+.storage {
+    -fx-background-image: url("../images/PieceOut.png");
+    -fx-background-repeat: stretch;
+    -fx-background-position: bottom;
+    -fx-background-size: 100% 100%;
+
+}
+
+.storageHigh{
+    -fx-background-image: url("../images/PieceOut.png");
+    -fx-background-repeat: stretch;
+    -fx-background-position: bottom;
+    -fx-background-size: 100% 100%;
+    -fx-effect: dropshadow(three-pass-box, rgb(255, 0, 0), 10, 0, 0, 0);
+}
+
+.out{
+    -fx-border-color: black;
+}
+
+.outHigh{
+    -fx-effect: dropshadow(three-pass-box, rgb(255, 0, 0), 10, 0, 0, 0);
+}
+
+.player1Label{
+    -fx-background-color: green;
+    -fx-border-color: black;
+}
+
+.player2Label{
+    -fx-background-color: red;
+    -fx-border-color: black;
+}
+
+.playerDeselect{
+    -fx-background-color: gray;
+    -fx-text-fill: white;
+}
