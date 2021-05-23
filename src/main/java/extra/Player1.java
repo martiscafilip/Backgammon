@@ -15,6 +15,12 @@ public class Player1 {
         Collections.addAll(jetons, jeton);
     }
 
+    private final ArrayList<Pane> panes = new ArrayList<>();
+
+    public void addPanes(Pane... pane) {
+        Collections.addAll(panes, pane);
+    }
+
     public Boolean validatePick(ImageView jeton)
     {
         return jetons.contains(jeton);
@@ -34,6 +40,20 @@ public class Player1 {
 
         for (Node node : list) {
             return jetons.contains(node);
+        }
+        return null;
+    }
+    public Boolean validateStack2(Pane parent)
+    {
+        if(parent.getChildren()!=null) {
+            ObservableList<Node> list = parent.getChildren();
+
+            if (list.isEmpty()) return true;
+            if (list.size() == 1 && !jetons.contains(list.get(0))) return true;
+
+            for (Node node : list) {
+                return jetons.contains(node);
+            }
         }
         return null;
     }
@@ -69,5 +89,29 @@ public class Player1 {
             return true;
         }
         return  false;
+    }
+    public Boolean checkFinal()
+    {
+        int counter = 0;
+        for (Pane pane: panes) {
+            ObservableList<Node> list =  pane.getChildren();
+            for (ImageView jeton: jetons) {
+                if(list.contains(jeton)) counter++;
+            }
+        }
+        System.out.println(counter);
+        if(counter==15) return true;
+        return false;
+    }
+
+    public ArrayList<Pane> getPanes()
+    {
+        return panes;
+    }
+
+    public Boolean checkPane(Node jeton)
+    {
+        ImageView jeton2 = (ImageView)  jeton;
+        return jetons.contains(jeton2);
     }
 }

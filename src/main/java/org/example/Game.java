@@ -30,10 +30,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Game implements Initializable {
 
@@ -54,13 +52,15 @@ public class Game implements Initializable {
     @FXML
     private ImageView dice1, dice2;
     @FXML
-    private Button rollButton;
+    private Button rollButton, send;
     @FXML
     private Label player1, player2;
     @FXML
     private Text p1star, p2star;
     @FXML
     private Pane middleBlack, middleWhite;
+    @FXML
+    private Pane outWhite, outBlack;
 
 
     private ImageView selected = null;
@@ -92,8 +92,8 @@ public class Game implements Initializable {
     private Pane high2;
     private String position = "";
     private Boolean moveFromMiddle;
-    private Integer middleWhiteCoordonate = 150;
-    private Integer middleBlackCoordonate = 150;
+    private Boolean finalWhite = false;
+    private Boolean finalBlack = false;
 
 
     private class Roll extends AnimationTimer {
@@ -125,111 +125,292 @@ public class Game implements Initializable {
                         dice3Value = dice1Value;
                         dice4Value = dice1Value;
                     }
+                    else
+                    {
+                        dice3Value=0;
+                        dice4Value=0;
+                    }
+                    if(!PosibilitiesCheck() && (finalWhite || finalBlack))
+                    {
+                        noPosibilities();
+                    }
                 }
             }
         }
     }
 
     public void back() {
-        System.out.println("back");
+        if(finalBlack || finalWhite) {
+            if (playerNr == 1) {
+                if (finalWhite) {
+                    if (Integer.parseInt(parent2.getId().substring(1)) - dice1Value == 0
+                            || Integer.parseInt(parent2.getId().substring(1)) - dice2Value == 0) {
+
+
+                        if (dice1Value.equals(dice2Value) && dice1Value > 0) {
+                            if (dice3Value != 0) dice3Value = 0;
+                            else if (dice4Value != 0) dice4Value = 0;
+                            else if (dice1Value != 0) dice1Value = 0;
+                            else if (dice2Value != 0) dice2Value = 0;
+                        }
+                        else
+                        {
+                            if (Integer.parseInt(parent2.getId().substring(1)) - dice1Value == 0) dice1Value = 0;
+                            else dice2Value = 0;
+                        }
+
+
+                        if (selected.isMouseTransparent()) {
+                            selected.setMouseTransparent(false);
+                            first.setTransparent(false);
+                        }
+                        selected.setLayoutX(0);
+                        selected.setLayoutY(250 - (outWhite.getChildren().size() * ((double) 250 / 15)));
+                        position = position.concat(outWhite.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(0)).concat("^").concat(String.valueOf(250 - (outWhite.getChildren().size() * ((double) 250 / 15)))).concat("^");
+
+                        outWhite.getChildren().add(selected);
+                        clearBorder();
+                        finalSend2();
+                        selected = null;
+                        parent = null;
+                        if (!PosibilitiesCheck() && (finalWhite || finalBlack) && (dice2Value > 0 || dice1Value > 0)) {
+                            noPosibilities();
+                        }
+                        return;
+                    } else if (Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) == dice1Value
+                            || Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) == dice2Value) {
+                        if (selected.isMouseTransparent()) {
+                            selected.setMouseTransparent(false);
+                            first.setTransparent(false);
+                            second.setTransparent(false);
+                        }
+
+                        selected.setLayoutX(positionX);
+                        selected.setLayoutY(positionY);
+                        position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY)).concat("^");
+                        overlap(parent, false);
+                        try {
+                            parent.getChildren().add(selected);
+                        } catch (Exception e) {
+                            System.out.println("Selected exception");
+                        }
+                        clearBorder();                                        //clear the border of the spikes that were drown
+                        diceValueChange();                                    //based on the move of the player sets to 0 the dice that has been used
+                        finalSend2();
+                        selected = null;
+                        parent = null;
+                        return;
+
+                    } else {
+                        if (selected.isMouseTransparent()) {
+                            selected.setMouseTransparent(false);
+                            first.setTransparent(false);
+                        }
+                        selected.setLayoutX(positionXX);
+                        selected.setLayoutY(positionYY);
+
+                        if (parent2.getChildren().size() > 4)
+                            overlap(parent2, false);
+                        parent2.getChildren().add(selected);
+                        clearBorder();
+
+//                overlap(parent, false);
+                        selected = null;
+                        parent = null;
+                        return;
+                    }
+                }
+            } else if (finalBlack) {
+                if (Integer.parseInt(parent2.getId().substring(1)) + dice1Value == 25
+                        || Integer.parseInt(parent2.getId().substring(1)) + dice2Value == 25) {
+
+                    if (dice1Value.equals(dice2Value) && dice1Value > 0) {
+                        if (dice3Value != 0) dice3Value = 0;
+                        else if (dice4Value != 0) dice4Value = 0;
+                        else if (dice1Value != 0) dice1Value = 0;
+                        else if (dice2Value != 0) dice2Value = 0;
+                    }
+                    else
+                    {
+                        if (Integer.parseInt(parent2.getId().substring(1)) + dice1Value == 25) dice1Value = 0;
+                        else dice2Value = 0;
+                    }
+
+                    if (selected.isMouseTransparent()) {
+                        selected.setMouseTransparent(false);
+                        second.setTransparent(false);
+                    }
+                    selected.setLayoutX(0);
+                    selected.setLayoutY(250 - (outBlack.getChildren().size() * ((double) 250 / 15)));
+//                    selected.setLayoutY(250);
+                    position = position.concat(outBlack.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(0)).concat("^").concat(String.valueOf(250 - (outBlack.getChildren().size() * ((double) 250 / 15)))).concat("^");
+
+                    outBlack.getChildren().add(selected);
+                    clearBorder();
+                    finalSend2();
+                    selected = null;
+                    parent = null;
+                    if (!PosibilitiesCheck() && (finalWhite || finalBlack) && (dice2Value > 0 || dice1Value > 0)) {
+                        noPosibilities();
+                    }
+                    return;
+                } else if (Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) == dice1Value
+                        || Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) == dice2Value) {
+                    if (selected.isMouseTransparent()) {
+                        selected.setMouseTransparent(false);
+                        first.setTransparent(false);
+                        second.setTransparent(false);
+                    }
+
+                    selected.setLayoutX(positionX);
+                    selected.setLayoutY(positionY);
+                    position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY)).concat("^");
+
+
+                    overlap(parent, false);
+
+                    try {
+                        parent.getChildren().add(selected);
+                    } catch (Exception e) {
+                        System.out.println("Selected exception");
+                    }
+
+                    clearBorder();                                        //clear the border of the spikes that were drown
+                    diceValueChange();                                    //based on the move of the player sets to 0 the dice that has been used
+                    finalSend2();
+                    selected = null;
+                    parent = null;
+                    return;
+                } else {
+                    if (selected.isMouseTransparent()) {
+                        selected.setMouseTransparent(false);
+                        second.setTransparent(false);
+                    }
+                    selected.setLayoutX(positionXX);
+                    selected.setLayoutY(positionYY);
+
+                    if (parent2.getChildren().size() > 4)
+                        overlap(parent2, false);
+                    parent2.getChildren().add(selected);
+                    clearBorder();
+
+//                overlap(parent, false);
+                    selected = null;
+                    parent = null;
+                    return;
+                }
+            }
+
+        }
+        else
 
         if (moveFromMiddle) {
             if (playerNr == 2) {
-                if ((Integer.parseInt(parent.getId().substring(1)) != dice1Value
+                if (parent.equals(parent2) || ((Integer.parseInt(parent.getId().substring(1)) != dice1Value
                         && Integer.parseInt(parent.getId().substring(1)) != dice2Value)
-                        || !second.validateStack(parent)) {
+                        || !second.validateStack(parent))) {
                     if (selected.isMouseTransparent()) {
                         selected.setMouseTransparent(false);
                         second.setTransparent(false);
                     }
+                    if (!parent.equals(parent2) && (Integer.parseInt(parent.getId().substring(1)) == dice1Value
+                            || Integer.parseInt(parent.getId().substring(1)) == dice2Value))
+                        if (getOutFromMiddle()) {
+                            selected = null;
+                            parent = null;
+                            return;
+                        }
                     selected.setLayoutX(positionXX);
                     selected.setLayoutY(positionYY);
                     parent2.getChildren().add(selected);
                     clearBorder();
-
-                    if (getOutFromMiddle()) {
-                        selected = null;
-                        parent = null;
-                        return;
-                    }
+                    selected = null;
+                    parent = null;
+                    return;
                 }
             } else {
-                if ((Integer.parseInt(parent.getId().substring(1)) != (25 - dice1Value)
+                if (parent.equals(parent2) || ((Integer.parseInt(parent.getId().substring(1)) != (25 - dice1Value)
                         && Integer.parseInt(parent.getId().substring(1)) != (25 - dice2Value))
-                        || (!first.validateStack(parent))) {
+                        || !first.validateStack(parent))) {
                     if (selected.isMouseTransparent()) {
                         selected.setMouseTransparent(false);
-                        second.setTransparent(false);
+                        first.setTransparent(false);
                     }
+                    if (!parent.equals(parent2) && (Integer.parseInt(parent.getId().substring(1)) == (25 - dice1Value)
+                            || Integer.parseInt(parent.getId().substring(1)) == (25 - dice2Value)))
+                        if (getOutFromMiddle()) {
+                            selected = null;
+                            parent = null;
+                            return;
+                        }
                     selected.setLayoutX(positionXX);
                     selected.setLayoutY(positionYY);
                     parent2.getChildren().add(selected);
                     clearBorder();
+                    selected = null;
+                    parent = null;
+                    return;
+                }
+            }
+        } else {
+            if (playerNr == 2) {
+                if ((Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) != dice1Value
+                        && Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) != dice2Value)
+                        || !second.validateStack(parent)) {
 
                     if (getOutFromMiddle()) {
                         selected = null;
                         parent = null;
                         return;
                     }
-                }
-            }
-        } else if (playerNr == 2) {
-            if ((Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) != dice1Value
-                    && Integer.parseInt(parent.getId().substring(1)) - Integer.parseInt(parent2.getId().substring(1)) != dice2Value)
-                    || !second.validateStack(parent)) {
 
-                if (getOutFromMiddle()) {
+                    if (selected.isMouseTransparent()) {
+                        selected.setMouseTransparent(false);
+                        second.setTransparent(false);
+                    }
+                    selected.setLayoutX(positionXX);
+                    selected.setLayoutY(positionYY);
+
+                    if (parent2.getChildren().size() > 4)
+                        overlap(parent2, false);
+                    parent2.getChildren().add(selected);
+                    clearBorder();
+
+//                overlap(parent, false);
                     selected = null;
                     parent = null;
                     return;
                 }
 
-                if (selected.isMouseTransparent()) {
-                    selected.setMouseTransparent(false);
-                    second.setTransparent(false);
-                }
-                selected.setLayoutX(positionXX);
-                selected.setLayoutY(positionYY);
+            } else {
+                if ((Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice1Value
+                        && Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice2Value)
+                        || !first.validateStack(parent)) {
+                    if (getOutFromMiddle()) {
+                        selected = null;
+                        parent = null;
+                        return;
+                    }
+                    if (selected.isMouseTransparent()) {
+                        selected.setMouseTransparent(false);
+                        first.setTransparent(false);
+                    }
+                    selected.setLayoutX(positionXX);
+                    selected.setLayoutY(positionYY);
 
-                if (parent2.getChildren().size() > 4)
-                    overlap(parent2, false);
-                parent2.getChildren().add(selected);
-                clearBorder();
+                    if (parent2.getChildren().size() > 4)
+                        overlap(parent2, false);
+                    parent2.getChildren().add(selected);
+
+                    clearBorder();
 
 //                overlap(parent, false);
-                selected = null;
-                parent = null;
-                return;
-            }
-
-        } else {
-            if ((Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice1Value
-                    && Integer.parseInt(parent2.getId().substring(1)) - Integer.parseInt(parent.getId().substring(1)) != dice2Value)
-                    || !first.validateStack(parent)) {
-                if (getOutFromMiddle()) {
                     selected = null;
                     parent = null;
                     return;
                 }
-                if (selected.isMouseTransparent()) {
-                    selected.setMouseTransparent(false);
-                    first.setTransparent(false);
-                }
-                selected.setLayoutX(positionXX);
-                selected.setLayoutY(positionYY);
 
-                if (parent2.getChildren().size() > 4)
-                    overlap(parent2, false);
-                parent2.getChildren().add(selected);
-
-                clearBorder();
-
-//                overlap(parent, false);
-                selected = null;
-                parent = null;
-                return;
             }
-
         }
 
         if (selected.isMouseTransparent()) {
@@ -262,11 +443,11 @@ public class Game implements Initializable {
     private void follow(MouseEvent event) {
         moveFromMiddle = false;
 
+        if (playerNr == 1 && first.checkFinal()) finalWhite = true;
+        if (playerNr == 2 && second.checkFinal()) finalBlack = true;
+
         if ((playerNr == 1 && middleBlack.getChildren().size() > 0) || (playerNr == 2 && middleWhite.getChildren().size() > 0)) {
             if (middleCheck(event)) {
-                System.out.println("merge");
-                if (playerNr == 1) middleWhiteCoordonate -= 50;
-                if (playerNr == 2) middleBlackCoordonate -= 50;
                 moveFromMiddle = true;
             } else {
                 return;
@@ -274,7 +455,6 @@ public class Game implements Initializable {
         }
 
         if (rollValidator == 1) {
-            System.out.println("follow");
             ImageView v = (ImageView) event.getTarget();
             if (playerNr == 1 && !first.validatePick(v)) return;
             if (playerNr == 2 && !second.validatePick(v)) return;
@@ -292,8 +472,7 @@ public class Game implements Initializable {
             String highlight1 = "p";
             String highlight2 = "p";
 
-            if (moveFromMiddle == false)
-            {
+            if (moveFromMiddle == false) {
                 if (playerNr == 2) {
                     highlight1 = highlight1.concat(((Integer) (dice1Value + Integer.parseInt(parent2.getId().substring(1)))).toString());
                     highlight2 = highlight2.concat(((Integer) (dice2Value + Integer.parseInt(parent2.getId().substring(1)))).toString());
@@ -312,8 +491,7 @@ public class Game implements Initializable {
                     high2 = getpane(highlight2);
                     if (dice2Value > 0) high2.setStyle("-fx-border-color: red");
                 }
-            }
-            else {
+            } else {
                 if (playerNr == 2) {
                     highlight1 = highlight1.concat(((Integer) dice1Value).toString());
                     highlight2 = highlight2.concat(((Integer) dice2Value).toString());
@@ -325,8 +503,8 @@ public class Game implements Initializable {
                 second.setTransparent(true);
                 high1 = getpane(highlight1);
                 high2 = getpane(highlight2);
-                if (dice1Value>0) high1.setStyle("-fx-border-color: red");
-                if(dice2Value>0) high2.setStyle("-fx-border-color: red");
+                if (dice1Value > 0) high1.setStyle("-fx-border-color: red");
+                if (dice2Value > 0) high2.setStyle("-fx-border-color: red");
 
 
             }
@@ -359,12 +537,14 @@ public class Game implements Initializable {
         if (playerNr == 2) {
             if (second.getOut(parent)) {
                 ObservableList<Node> list = parent.getChildren();
-                position = position.concat(middleBlack.getId()).concat("^").concat(list.get(0).getId()).concat("^").concat(String.valueOf(0)).concat("^").concat(String.valueOf(middleBlackCoordonate)).concat("^");
+                double y = 200 - middleBlack.getChildren().size() * 50;
+                if (y < 0) y = 0;
+                position = position.concat(middleBlack.getId()).concat("^").concat(list.get(0).getId()).concat("^").concat(String.valueOf(0)).concat("^").concat(String.valueOf(y)).concat("^");
                 position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY + 50)).concat("^");
                 list.get(0).setLayoutX(0);
-                list.get(0).setLayoutY(middleBlackCoordonate);
-                middleBlackCoordonate += 50;
+                list.get(0).setLayoutY(y);
                 middleBlack.getChildren().add(list.get(0));
+                overlap(middleBlack, false);
                 if (selected.isMouseTransparent()) {
                     selected.setMouseTransparent(false);
                     first.setTransparent(false);
@@ -387,13 +567,14 @@ public class Game implements Initializable {
         } else {
             if (first.getOut(parent)) {
                 ObservableList<Node> list = parent.getChildren();
-
+                double y = 200 - middleWhite.getChildren().size() * 50;
+                if (y < 0) y = 0;
                 position = position.concat(parent.getId()).concat("^").concat(selected.getId()).concat("^").concat(String.valueOf(positionX)).concat("^").concat(String.valueOf(positionY + 50)).concat("^");
-                position = position.concat(middleWhite.getId()).concat("^").concat(list.get(0).getId()).concat("^").concat(String.valueOf(0)).concat("^").concat(String.valueOf(middleWhiteCoordonate)).concat("^");
+                position = position.concat(middleWhite.getId()).concat("^").concat(list.get(0).getId()).concat("^").concat(String.valueOf(0)).concat("^").concat(String.valueOf(y)).concat("^");
                 list.get(0).setLayoutX(0);
-                list.get(0).setLayoutY(middleWhiteCoordonate);
-                middleWhiteCoordonate += 50;
+                list.get(0).setLayoutY(y);
                 middleWhite.getChildren().add(list.get(0));
+                overlap(middleWhite, false);
 
                 if (selected.isMouseTransparent()) {
                     selected.setMouseTransparent(false);
@@ -452,7 +633,6 @@ public class Game implements Initializable {
         }
 
         if (dice1Value.equals(dice2Value) && dice1Value > 0) {
-            System.out.println("intra si aici cand e egal");
             if (dice3Value != 0) dice3Value = 0;
             else if (dice4Value != 0) dice4Value = 0;
             else if (dice1Value != 0) dice1Value = 0;
@@ -515,12 +695,13 @@ public class Game implements Initializable {
         out.println(position);
         position = "";
         changeColorOfPlayerTurn();
-        board.setDisable(true);
+        bigboard.setDisable(true);
         selected = null;
         parent = null;
     }
 
     public void finalSend2() {
+        if (win()) return;                                    //checks if the game is over
 
         if (parent2.getId().equals(parent.getId())) {
 //            overlap(parent, false);
@@ -540,7 +721,7 @@ public class Game implements Initializable {
         out.println(position);
         position = "";
         changeColorOfPlayerTurn();
-        board.setDisable(true);
+        bigboard.setDisable(true);
         selected = null;
         parent = null;
     }
@@ -560,11 +741,38 @@ public class Game implements Initializable {
         dice.setImage(image);
     }
 
+    @FXML
+    private void sending() {
+        position = position.concat("done");
+        out.println(position);
+        position = "";
+        changeColorOfPlayerTurn();
+        bigboard.setDisable(true);
+        selected = null;
+        parent = null;
+    }
+
+    private Boolean win() {
+        if ((playerNr == 1 && outWhite.getChildren().size() == 15) || (playerNr == 2 && outBlack.getChildren().size() == 15)) {
+            position = position.concat("win");
+            out.println(position);
+            changeColorOfPlayerTurn();
+            player1.setText("YOU");
+            player1.setStyle("-fx-background-color: black ;-fx-border-color: black");
+            player2.setText("WON!");
+            player2.setStyle("-fx-background-color: black ;-fx-border-color: black");
+            bigboard.setDisable(true);
+            selected = null;
+            parent = null;
+            return true;
+        }
+        return false;
+    }
+
     public void rolling() {
         if (rollValidator == 0) {
             roll.start();
             rollValidator = 1;
-            System.out.println(dice1Value + " " + dice2Value);
         }
     }
 
@@ -606,6 +814,9 @@ public class Game implements Initializable {
     }
 
     public void addPanes() {
+        first.addPanes(p1, p2, p3, p4, p5, p6);
+        second.addPanes(p24, p23, p22, p21, p20, p19);
+
         panes.add(p1);
         panes.add(p2);
         panes.add(p3);
@@ -632,6 +843,8 @@ public class Game implements Initializable {
         panes.add(p24);
         panes.add(middleWhite);
         panes.add(middleBlack);
+        panes.add(outWhite);
+        panes.add(outBlack);
     }
 
     private List<ImageView> getAllChildren(Pane root) {
@@ -646,16 +859,12 @@ public class Game implements Initializable {
     private double getOverlap(Pane root) {
         List<ImageView> children = getAllChildren(root);
         int size = children.size();
-//        System.out.println("Children: "+size);
         if (size > 1) {
-//            System.out.println("Copil2: "+children.get(1).getLayoutY());
             double overlap = 150 - children.get(1).getLayoutY();
-            System.out.println("Overlap: " + overlap);
             if (overlap < 0.1)
                 return 0;
             return overlap * (-1);
         }
-
         return 0;
     }
 
@@ -671,11 +880,11 @@ public class Game implements Initializable {
     }
 
     public void overlap(Pane pane, boolean reverse) {
+        if (pane.equals(outBlack) || pane.equals(outWhite)) return;
         List<ImageView> list = getAllChildren(pane);
         double size = list.size();
         double newY;
         double value;
-//        int  overlap = (int) getOverlap(pane);
         double pieceHeight = 50;
         ImageView view;
 
@@ -683,7 +892,6 @@ public class Game implements Initializable {
             newY = ((pieceHeight) / (size));
             value = newY;
 
-//            System.out.println("Rotation:"+pane.getRotate());
             for (int i = 1; i < size; i++) {
                 view = list.get(i);
 
@@ -693,6 +901,184 @@ public class Game implements Initializable {
                     moveAnimation(view, -value);
 
                 value = value + newY;
+            }
+        }
+    }
+
+    public void loser() {
+        player1.setText("YOU");
+        player1.setStyle("-fx-background-color: black ;-fx-border-color: black");
+        player2.setText("LOSE!");
+        player2.setStyle("-fx-background-color: black ;-fx-border-color: black");
+        bigboard.setDisable(true);
+    }
+
+    public Boolean PosibilitiesCheck() {
+        ArrayList<Pane> paness = new ArrayList<>();
+        if (playerNr == 1) paness = first.getPanes();
+        else paness = second.getPanes();
+
+
+        boolean checker = false;
+        if(playerNr==1) {
+            for (Pane pane : paness) {
+                if(pane.getChildren().size()==0) continue;
+                String nextPane = "p";
+                if ((Integer.parseInt(pane.getId().substring(1)) - dice1Value > 0 && dice1Value > 0))
+                    if (first.validateStack2(getpane(nextPane.concat(((Integer) (Integer.parseInt(pane.getId().substring(1)) - dice1Value)).toString())))) {
+                        checker = true;
+                        break;
+                    }
+                if((Integer.parseInt(pane.getId().substring(1)) - dice2Value > 0 && dice2Value > 0))
+                    if(first.validateStack2(getpane(nextPane.concat(((Integer)(Integer.parseInt(pane.getId().substring(1)) - dice2Value)).toString()))))
+                    {
+                        checker=true;
+                        break;
+                    }
+                if ((Integer.parseInt(pane.getId().substring(1)) - dice1Value == 0 && dice1Value > 0) || (Integer.parseInt(pane.getId().substring(1)) - dice2Value == 0 && dice2Value > 0))
+                {
+                    checker=true;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for (Pane pane : paness) {
+                if(pane.getChildren().size()==0) continue;
+                String nextPane = "p";
+                if ((Integer.parseInt(pane.getId().substring(1)) + dice1Value < 25 && dice1Value > 0))
+                    if(second.validateStack2(getpane(nextPane.concat(((Integer)(Integer.parseInt(pane.getId().substring(1)) + dice1Value)).toString()))))
+                    {
+                        checker=true;
+                        break;
+                    }
+                if (Integer.parseInt(pane.getId().substring(1)) + dice2Value < 25 && dice2Value > 0)
+                    if(second.validateStack2(getpane(nextPane.concat(((Integer)(Integer.parseInt(pane.getId().substring(1)) + dice2Value)).toString()))))
+                    {
+                        checker=true;
+                        break;
+                    }
+                if ((Integer.parseInt(pane.getId().substring(1)) + dice1Value == 25 && dice1Value > 0) || (Integer.parseInt(pane.getId().substring(1)) + dice2Value == 25 && dice2Value > 0))
+                {
+                    checker=true;
+                    break;
+                }
+            }
+        }
+        return checker;
+    }
+
+    public void noPosibilities() {
+        int counter=0;
+        if(dice4Value>0)counter++;
+        if(dice3Value>0)counter++;
+        if(dice2Value>0)counter++;
+        if(dice1Value>0)counter++;
+
+        if(playerNr==1)
+        {
+            ArrayList<Pane> panesss = new ArrayList<>();
+            panesss.add(p6);
+            panesss.add(p5);
+            panesss.add(p4);
+            panesss.add(p3);
+            panesss.add(p2);
+            panesss.add(p1);
+            for (Pane pane : panesss) {
+                ObservableList<Node> arrayLis = pane.getChildren();
+                ArrayList<Node> arrayList =(ArrayList<Node>) new ArrayList<>(arrayLis);
+                Collections.reverse(arrayList);
+
+                if(pane.getChildren().size()>0)
+                    for (Node jeton: arrayList) {
+                        if (first.checkPane(jeton)) {
+
+
+                            if (counter == 0) {
+                                if(win()) return;
+                                out.println(position);
+                                position = "";
+                                changeColorOfPlayerTurn();
+
+                                bigboard.setDisable(true);
+                                selected = null;
+                                parent = null;
+                                return;
+                            }
+                            jeton.setLayoutX(0);
+                            jeton.setLayoutY(250 - (outWhite.getChildren().size() * ((double) 250 / 15)));
+                            position = position.concat(outWhite.getId()).concat("^").concat(jeton.getId()).concat("^").concat(String.valueOf(0)).concat("^").concat(String.valueOf(250 - (outWhite.getChildren().size() * ((double) 250 / 15)))).concat("^");
+                            outWhite.getChildren().add(jeton);
+                            counter--;
+                            if (dice1Value.equals(dice2Value) && dice1Value > 0) {
+                                if (dice3Value != 0) dice3Value = 0;
+                                else if (dice4Value != 0) dice4Value = 0;
+                                else if (dice1Value != 0) dice1Value = 0;
+                                else if (dice2Value != 0) dice2Value = 0;
+                            }
+                            else
+                            {
+                                if(dice1Value > dice2Value) dice1Value = 0;
+                                else dice2Value =0;
+                            }
+                            if(win()) return;
+
+                        }
+                    }
+            }
+
+        }
+        else
+        {
+            ArrayList<Pane> panesss = new ArrayList<>();
+            panesss.add(p19);
+            panesss.add(p20);
+            panesss.add(p21);
+            panesss.add(p22);
+            panesss.add(p23);
+            panesss.add(p24);
+            for (Pane pane : panesss) {
+                ObservableList<Node> arrayLis = pane.getChildren();
+                ArrayList<Node> arrayList =(ArrayList<Node>) new ArrayList<>(arrayLis);
+                Collections.reverse(arrayList);
+                if(pane.getChildren().size()>0)
+                    for (Node jeton:arrayList) {
+                        if (second.checkPane(jeton)) {
+
+                            if (counter == 0) {
+                                if(win()) return;
+                                out.println(position);
+                                position = "";
+                                changeColorOfPlayerTurn();
+
+                                bigboard.setDisable(true);
+                                selected = null;
+                                parent = null;
+                                return;
+                            }
+
+                            jeton.setLayoutX(0);
+                            jeton.setLayoutY(250 - (outBlack.getChildren().size() * ((double) 250 / 15)));
+                            position = position.concat(outBlack.getId()).concat("^").concat(jeton.getId()).concat("^").concat(String.valueOf(0)).concat("^").concat(String.valueOf(250 - (outBlack.getChildren().size() * ((double) 250 / 15)))).concat("^");
+                            outBlack.getChildren().add(jeton);
+                            counter--;
+
+                            if (dice1Value.equals(dice2Value) && dice1Value > 0) {
+                                if (dice3Value != 0) dice3Value = 0;
+                                else if (dice4Value != 0) dice4Value = 0;
+                                else if (dice1Value != 0) dice1Value = 0;
+                                else if (dice2Value != 0) dice2Value = 0;
+                            }
+                            else
+                            {
+                                if(dice1Value > dice2Value) dice1Value = 0;
+                                else dice2Value =0;
+                            }
+                            if(win()) return;
+
+                        }
+                    }
             }
         }
     }
@@ -731,7 +1117,7 @@ public class Game implements Initializable {
                     playerNr = 2;
                     board.rotateProperty().setValue(180);
                     bigboard.getChildren().remove(p1star);
-                    board.setDisable(true);
+                    bigboard.setDisable(true);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -744,8 +1130,6 @@ public class Game implements Initializable {
                 try {
                     response2 = in.readLine();
                     String[] parts = response2.split("\\^");
-                    System.out.println(response2);
-
 
                     if (playerNr == 1) {
                         player1.setStyle(greenstyle);
@@ -754,26 +1138,26 @@ public class Game implements Initializable {
                         player1.setStyle(redstyle);
                         player2.setStyle(greenstyle);
                     }
-                    board.setDisable(false);
+                    bigboard.setDisable(false);
                     rollValidator = 0;
 
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            Pane pane = (Pane) getjeton(parts[1]).getParent();
+                            Pane pane = null;
                             Pane pane1 = null, pane2 = null, pane3 = null, pane4 = null;
                             Pane pane5 = null, pane6 = null, pane7 = null;
 
                             ArrayList<Pane> panes = new ArrayList<>();
 
-
+                            if (parts.length > 1) pane = (Pane) getjeton(parts[1]).getParent();
                             if (parts.length > 5) pane1 = (Pane) getjeton(parts[5]).getParent();
-                            if (parts.length > 8) pane2 = (Pane) getjeton(parts[9]).getParent();
-                            if (parts.length > 12) pane3 = (Pane) getjeton(parts[13]).getParent();
-                            if (parts.length > 16) pane4 = (Pane) getjeton(parts[17]).getParent();
-                            if (parts.length > 20) pane5 = (Pane) getjeton(parts[21]).getParent();
-                            if (parts.length > 24) pane6 = (Pane) getjeton(parts[25]).getParent();
-                            if (parts.length > 28) pane7 = (Pane) getjeton(parts[29]).getParent();
+                            if (parts.length > 9) pane2 = (Pane) getjeton(parts[9]).getParent();
+                            if (parts.length > 13) pane3 = (Pane) getjeton(parts[13]).getParent();
+                            if (parts.length > 17) pane4 = (Pane) getjeton(parts[17]).getParent();
+                            if (parts.length > 21) pane5 = (Pane) getjeton(parts[21]).getParent();
+                            if (parts.length > 25) pane6 = (Pane) getjeton(parts[25]).getParent();
+                            if (parts.length > 29) pane7 = (Pane) getjeton(parts[29]).getParent();
 
                             panes.add(pane1);
                             panes.add(pane2);
@@ -782,6 +1166,7 @@ public class Game implements Initializable {
                             panes.add(pane5);
                             panes.add(pane6);
                             panes.add(pane7);
+                            if (parts[0].equals("done")) return;
 
                             getjeton(parts[1]).setLayoutX(Double.parseDouble(parts[2]));
                             getjeton(parts[1]).setLayoutY(Double.parseDouble(parts[3]));
@@ -793,13 +1178,17 @@ public class Game implements Initializable {
                             pane = getpane(parts[0]);
 
                             int start = 0;
-                            for(int i=4; i<parts.length; i+=4)
-                            {
-                                getjeton(parts[i+1]).setLayoutX(Double.parseDouble(parts[i+2]));
-                                getjeton(parts[i+1]).setLayoutY(Double.parseDouble(parts[i+3]));
+                            for (int i = 4; i < parts.length; i += 4) {
+                                if (parts[i].equals("done")) return;
+                                if (parts[i].equals("win")) {
+                                    loser();
+                                    return;
+                                }
+                                getjeton(parts[i + 1]).setLayoutX(Double.parseDouble(parts[i + 2]));
+                                getjeton(parts[i + 1]).setLayoutY(Double.parseDouble(parts[i + 3]));
                                 if (!pane.equals(panes.get(start)))
                                     overlap(getpane(parts[i]), false);
-                                (getpane(parts[i])).getChildren().add(getjeton(parts[i+1]));
+                                (getpane(parts[i])).getChildren().add(getjeton(parts[i + 1]));
                                 if (!pane.equals(panes.get(start)))
                                     overlap(panes.get(start), true);
                                 start++;
@@ -820,8 +1209,6 @@ public class Game implements Initializable {
         board.addEventFilter(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-//                System.out.println(event.getX());
-//                System.out.println(event.getY());
                 if (selected != null) {
                     selected.setLayoutX(event.getX() - offset);
                     selected.setLayoutY(event.getY() - offset);
@@ -834,7 +1221,6 @@ public class Game implements Initializable {
         board.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("handleclicked");
                 x = event.getX();
                 y = event.getY();
                 if ((event.getTarget() instanceof Pane) && (event.getTarget() != table) && (event.getTarget() != board)) {
@@ -849,7 +1235,7 @@ public class Game implements Initializable {
                     }
                 }
                 if (selected != null) {
-                    overlap(parent, false);
+                    if (!moveFromMiddle) overlap(parent, false);
                     back();
                 }
             }
