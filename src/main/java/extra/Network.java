@@ -13,7 +13,7 @@ public class Network {
 
 
     public Network() throws IOException {
-        String serverAddress = "127.0.0.1"; // The server's IP address
+        String serverAddress = "192.168.1.7"; // The server's IP address
         int PORT = 8100; // The server's port
         this.socket = new Socket(serverAddress, PORT);
         this.out = new PrintWriter(socket.getOutputStream(), true);

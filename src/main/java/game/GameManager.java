@@ -158,6 +158,7 @@ public class GameManager {
                                     }
                                     if(wait == 30){
                                         first.highPossibleMoves();
+                                        first.disablePlayerMove(true);
                                     }
                                     if(wait > 30 && wait % 15 == 0){
                                         if(first.hasMoves()){
@@ -214,6 +215,7 @@ public class GameManager {
                                     }
                                     if(wait == 30){
                                         second.highPossibleMoves();
+                                        second.disablePlayerMove(true);
                                     }
                                     if (wait > 30 && wait % 15 ==0) {
 //                                        second.highPossibleMoves();

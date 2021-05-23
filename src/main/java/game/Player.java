@@ -79,7 +79,7 @@ public class Player {
             }
         }
 
-//        outPlace.getRepresentation().setMouseTransparent(disable);
+        outPlace.getRepresentation().setMouseTransparent(disable);
         storage.getRepresentation().setMouseTransparent(disable);
     }
 
