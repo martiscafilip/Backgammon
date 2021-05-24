@@ -150,7 +150,8 @@ public class Bot extends Player{
             }
         }
         if(moves.size() > 0) {
-            int move = random.nextInt(moves.size());
+//            int move = random.nextInt(moves.size());
+            int move = moves.size() - 1;
             if(moves.get(move).getSpikes().size() > 0) {
 
                 Container from = moves.get(move).getPiece();
