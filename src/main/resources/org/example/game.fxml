@@ -226,7 +226,7 @@
             <Pane fx:id="outBlack" layoutX="680.0" layoutY="15.0" prefHeight="300.0" prefWidth="50.0" rotate="180.0" styleClass="pieceOut" stylesheets="@../../style/game.css" />
          </children>
       </AnchorPane>
-      <Button fx:id="rollButton" layoutX="863.0" layoutY="582.0" mnemonicParsing="false" onAction="#rolling" text="ROLL!">
+      <Button fx:id="rollButton" layoutX="863.0" layoutY="517.0" mnemonicParsing="false" onAction="#rolling" text="ROLL!">
          <font>
             <Font size="24.0" />
          </font>
@@ -261,6 +261,6 @@
             <Image url="@../../images/Dice1.png" />
          </image>
       </ImageView>
-      <Button fx:id="send" layoutX="967.0" layoutY="650.0" mnemonicParsing="false" onAction="#sending" prefHeight="56.0" prefWidth="100.0" text="SEND" />
+      <Button fx:id="send" layoutX="863.0" layoutY="609.0" mnemonicParsing="false" onAction="#sending" prefHeight="56.0" prefWidth="94.0" text="SEND" />
    </children>
 </AnchorPane>
