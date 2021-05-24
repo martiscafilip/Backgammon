@@ -104,7 +104,7 @@ public class Bot extends Player{
                 if(dice1 != 0) {
                     if (spikes.get(dice1 - 1).getPieces().size() == 0) {
                         isEmptyD1 = true;
-                        for (int i = 6; i > dice1 && isEmptyD1; i--) {
+                        for (int i = 6; i > from && isEmptyD1; i--) {
                             if (spikes.get(i).getPieces().size() != 0)
                                 isEmptyD1 = false;
                         }
@@ -114,18 +114,19 @@ public class Bot extends Player{
                 if(dice2 != 0) {
                     if (spikes.get(dice2 - 1).getPieces().size() == 0) {
                         isEmptyD2 = true;
-                        for (int i = 6; i > dice2 && isEmptyD2; i--) {
+                        for (int i = 6; i > from && isEmptyD2; i--) {
                             if (spikes.get(i).getPieces().size() != 0)
                                 isEmptyD2 = false;
                         }
                     }
                 }
 
-                if (dice1 == (size - from) || dice2 == (size - from) || isEmptyD1 || isEmptyD2) {
+                if (dice1 == (size - from) || dice2 == (size - from) || (dice1 > (size - from) && isEmptyD1) || (dice2 > (size - from) && isEmptyD2)) {
+                    System.out.println("Zize-from: " + (size-from));
                     storage.show(true);
+                    movePlaces.add(storage);
                     count++;
 //                    storage.getRepresentation().setMouseTransparent(false);
-                    movePlaces.add(storage);
                 }
 
             }
