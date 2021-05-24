@@ -119,27 +119,6 @@ public class GameManager {
                     public void run() {
 //                        System.out.println("Tesk2");
                         if(first != null && second != null) {
-
-                            if(first.getStorage().pieces.size() == 15){
-                                System.out.println("Player1 Win!!!!!");
-                                gameStatus.setText(first.getPlayerLabel().getText() + " win the game!!!");
-                                second.removePieceHigh();
-                                second.removeSpikeHigh();
-                                dice.consumeAll();
-                                dice.canRoll(false);
-                                timer2.cancel();
-                            }
-
-                            if(second.getStorage().pieces.size() == 15){
-                                System.out.println("Player2 Win!!!!!");
-                                gameStatus.setText(second.getPlayerLabel().getText() + " win the game!!!");
-                                first.removePieceHigh();
-                                first.removeSpikeHigh();
-                                dice.consumeAll();
-                                dice.canRoll(false);
-                                timer2.cancel();
-                            }
-
                             if (round % 2 == 1) {
 //                                System.out.println("R1: dice.cu: " + dice.canUse());
                                 if(! (first instanceof Bot)) {
@@ -257,6 +236,30 @@ public class GameManager {
                                     wait++;
                                 }
                             }
+
+
+                            if(first.getStorage().pieces.size() == 15){
+                                System.out.println("Player1 Win!!!!!");
+                                gameStatus.setText(first.getPlayerLabel().getText() + " win the game!!!");
+                                first.removePieceHigh();
+                                first.removeSpikeHigh();
+                                first.myTurn(false);
+                                dice.consumeAll();
+                                dice.canRoll(false);
+                                timer2.cancel();
+                            }
+
+                            if(second.getStorage().pieces.size() == 15){
+                                System.out.println("Player2 Win!!!!!");
+                                gameStatus.setText(second.getPlayerLabel().getText() + " win the game!!!");
+                                second.removePieceHigh();
+                                second.removeSpikeHigh();
+                                second.myTurn(false);
+                                dice.consumeAll();
+                                dice.canRoll(false);
+                                timer2.cancel();
+                            }
+
                         }
                     }
                 });
