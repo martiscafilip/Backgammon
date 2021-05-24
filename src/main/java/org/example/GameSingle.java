@@ -35,6 +35,7 @@ public class GameSingle implements Initializable {
     @FXML private Text p1Star;
     @FXML private Text p2Star;
     @FXML Label timer;
+    @FXML Label statusLabel;
 
     private List<Piece> whitePieces;
     private List<Piece> blackPieces;
@@ -130,7 +131,9 @@ public class GameSingle implements Initializable {
         Bot player2 = new Bot(blackPieces, spikesPlayer2, outPlayer2, storage2, "black", dice);
 
         player1.setPlayerLabel(p1Label);
+        p1Label.setText("You");
         player2.setPlayerLabel(p2Label);
+        p2Label.setText("Bot");
 
         spikesPlayer1.forEach(spike -> spike.setPlayer(player1));
         spikesPlayer2.forEach(spike -> spike.setPlayer(player2));
@@ -164,7 +167,11 @@ public class GameSingle implements Initializable {
 //        player2.disablePlayerMove(true);
 
         RoundTimer roundTimer = new RoundTimer(timer);
+        timer.setVisible(false);
+
+        GameStatus gameStatus = new GameStatus(statusLabel);
         GameManager manager = new GameManager(player1, player2, board1, dice, roundTimer);
+        manager.setGameStatus(gameStatus);
 //        spikesPlayer1.get(5).showPiece(true);
         manager.startGame();
 

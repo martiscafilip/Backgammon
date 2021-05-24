@@ -12,6 +12,7 @@ public class GameManager {
     private Board board;
     private Dice dice;
     private RoundTimer roundTimer;
+    private GameStatus gameStatus;
 
     private Player first = null;
     private Player second = null;
@@ -40,6 +41,7 @@ public class GameManager {
         player1.disablePlayerMove(true);
         player2.disablePlayerMove(true);
 
+        gameStatus.setText("Decide who is first");
         decideFirst();
 
         dice.disableDice();
@@ -88,6 +90,7 @@ public class GameManager {
                                 }
                                 first.myTurn(true);
                                 second.myTurn(false);
+                                gameStatus.setText(first.getPlayerLabel().getText() +" start the game!");
 
                                 System.out.println("");
                                 System.out.println("Player1: " + player1Sum);
@@ -119,11 +122,21 @@ public class GameManager {
 
                             if(first.getStorage().pieces.size() == 15){
                                 System.out.println("Player1 Win!!!!!");
+                                gameStatus.setText(first.getPlayerLabel().getText() + " win the game!!!");
+                                second.removePieceHigh();
+                                second.removeSpikeHigh();
+                                dice.consumeAll();
+                                dice.canRoll(false);
                                 timer2.cancel();
                             }
 
                             if(second.getStorage().pieces.size() == 15){
                                 System.out.println("Player2 Win!!!!!");
+                                gameStatus.setText(second.getPlayerLabel().getText() + " win the game!!!");
+                                first.removePieceHigh();
+                                first.removeSpikeHigh();
+                                dice.consumeAll();
+                                dice.canRoll(false);
                                 timer2.cancel();
                             }
 
@@ -137,6 +150,7 @@ public class GameManager {
 
                                     if (!first.hasMoves() && firstStart) {
                                         round++;
+                                        gameStatus.setText("It's " + second.getPlayerLabel().getText() + " turn");
                                         wait = 0;
                                         System.out.println("p1 Round nb:" + round);
                                         dice.consumeAll();
@@ -167,6 +181,7 @@ public class GameManager {
                                             ((Bot) first).makeMove();
                                         } else {
                                             round ++;
+                                            gameStatus.setText("It's " + second.getPlayerLabel().getText() + " turn");
                                             wait = 0;
                                             System.out.println("p1 Round b:" + round);
                                             dice.consumeAll();
@@ -193,6 +208,7 @@ public class GameManager {
 
                                     if (!second.hasMoves() && secondStart) {
                                         round++;
+                                        gameStatus.setText("It's " + first.getPlayerLabel().getText() + " turn");
                                         System.out.println("p2 Round nb:" + round);
                                         wait = 0;
                                         dice.consumeAll();
@@ -225,6 +241,7 @@ public class GameManager {
                                             ((Bot) second).makeMove();
                                         } else {
                                             round++;
+                                            gameStatus.setText("It's " + first.getPlayerLabel().getText() + " turn");
                                             wait = 0;
                                             System.out.println("p2 Round b:" + round);
                                             dice.consumeAll();
@@ -302,5 +319,13 @@ public class GameManager {
             }
             wait++;
         }
+    }
+
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
+
+    public void setGameStatus(GameStatus gameStatus) {
+        this.gameStatus = gameStatus;
     }
 }

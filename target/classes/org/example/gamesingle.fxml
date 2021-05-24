@@ -236,10 +236,15 @@
                 <Image url="@../../images/Dice1.png" />
             </image>
         </ImageView>
-        <Label fx:id="timer" alignment="CENTER" contentDisplay="CENTER" layoutX="842.0" layoutY="185.0" prefHeight="50.0" prefWidth="150.0" styleClass="border" stylesheets="@../../style/gameSingle.css" text="0:0" textAlignment="CENTER" textOverrun="CLIP">
+        <Label fx:id="timer" alignment="CENTER" contentDisplay="CENTER" layoutX="842.0" layoutY="185.0" prefHeight="50.0" prefWidth="150.0" styleClass="border" stylesheets="@../../style/gameSingle.css" text="0:0" textAlignment="CENTER" textOverrun="CLIP" visible="false">
             <font>
                 <Font size="39.0" />
             </font>
         </Label>
+      <Label fx:id="statusLabel" alignment="CENTER" layoutX="767.0" layoutY="285.0" prefHeight="50.0" prefWidth="311.0" styleClass="border" stylesheets="@../../style/gameSingle.css" text="Game Status" textAlignment="CENTER">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
